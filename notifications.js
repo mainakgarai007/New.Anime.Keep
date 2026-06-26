@@ -1,4 +1,3 @@
-```javascript
 /**
  * Anime.Keep - Notifications & Smart Recommendations Engine
  * -----------------------------------------------------------------------------
