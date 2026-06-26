@@ -1,0 +1,399 @@
+```html
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anime.Keep - My Watchlists & Collections</title>
+
+  <!-- Fallback External Resource Links -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="app.css">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Free Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts (Inter) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            amoled: '#020205',
+            glass: 'rgba(10, 10, 18, 0.45)',
+            'glass-border': 'rgba(255, 255, 255, 0.08)',
+            'glow-blue': 'rgba(59, 130, 246, 0.15)',
+            'glow-purple': 'rgba(147, 51, 234, 0.15)',
+            brand: {
+              blue: '#3b82f6',
+              purple: '#a855f7',
+              cyan: '#06b6d4',
+              pink: '#ec4899',
+              amber: '#f59e0b',
+              emerald: '#10b981'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom AMOLED Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #020205;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #111024;
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3b82f6;
+    }
+
+    /* Ambient Glow backdrops */
+    .glow-radial-blue {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, rgba(0, 0, 0, 0) 70%);
+      top: -100px;
+      left: -200px;
+      z-index: 0;
+      pointer-events: none;
+      filter: blur(45px);
+    }
+
+    .glow-radial-purple {
+      position: absolute;
+      width: 550px;
+      height: 550px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+      bottom: 10%;
+      right: -250px;
+      z-index: 0;
+      pointer-events: none;
+      filter: blur(55px);
+    }
+
+    /* Glassmorphic Cards Styling */
+    .glass-panel {
+      background: rgba(10, 10, 18, 0.55);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .glass-card {
+      background: rgba(15, 15, 27, 0.45);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .glass-card:hover {
+      transform: translateY(-4px) scale(1.01);
+      background: rgba(20, 20, 35, 0.75);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 15px 40px -10px rgba(59, 130, 246, 0.25);
+    }
+
+    /* Shimmering Placeholder effect */
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .shimmer-bg {
+      background: linear-gradient(90deg, #090912 25%, #18182b 50%, #090912 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.6s infinite linear;
+    }
+  </style>
+</head>
+<body class="bg-amoled text-slate-100 min-h-screen font-sans relative overflow-x-hidden selection:bg-brand-blue/30 selection:text-white">
+
+  <!-- Ambient Glowing Accents -->
+  <div class="glow-radial-blue"></div>
+  <div class="glow-radial-purple"></div>
+
+  <!-- Main Grid Scaffolding Wrapper -->
+  <div class="relative z-10 flex flex-col min-h-screen">
+
+    <!-- STICKY TOP HEADER -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-white/5 shadow-lg">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
+        
+        <!-- Left Brand & Back Button -->
+        <div class="flex items-center gap-3 sm:gap-4">
+          <button onclick="navigateBack()" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center hover:bg-white/10 active:scale-95 transition-all text-slate-300" title="Go Back">
+            <i class="fa-solid fa-arrow-left text-sm sm:text-base"></i>
+          </button>
+          
+          <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='schedule.html'">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-blue to-brand-purple flex items-center justify-center shadow-lg shadow-brand-blue/30">
+              <i class="fa-solid fa-bolt text-white text-sm"></i>
+            </div>
+            <span class="font-extrabold text-lg sm:text-xl tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent">
+              Anime.<span class="bg-gradient-to-r from-brand-blue to-brand-cyan bg-clip-text text-transparent">Keep</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Right Quick Actions -->
+        <div class="flex items-center gap-2">
+          <button onclick="openCreateWatchlistModal()" class="px-4 h-10 rounded-xl bg-gradient-to-r from-brand-blue to-brand-purple hover:opacity-90 text-white font-semibold text-xs transition-all active:scale-95 shadow-md shadow-brand-blue/20 flex items-center gap-1.5">
+            <i class="fa-solid fa-folder-plus text-xs"></i>
+            <span>Create List</span>
+          </button>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- MAIN INTERACTIVE SECTION CONTENT -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex flex-col gap-8">
+      
+      <!-- COLLECTION METRICS & ANALYTICS BAR -->
+      <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <!-- Metric Card -->
+        <div class="glass-card rounded-2xl p-5 flex flex-col justify-between">
+          <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Total Databases</span>
+          <span id="metric-total-lists" class="text-3xl font-black text-white mt-1">--</span>
+          <span class="text-[10px] text-brand-blue font-semibold mt-1">Aggregated collections</span>
+        </div>
+        <!-- Metric Card -->
+        <div class="glass-card rounded-2xl p-5 flex flex-col justify-between">
+          <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Pinned Lists</span>
+          <span id="metric-pinned-lists" class="text-3xl font-black text-brand-cyan mt-1">--</span>
+          <span class="text-[10px] text-brand-cyan/60 font-semibold mt-1">Quick access cards</span>
+        </div>
+        <!-- Metric Card -->
+        <div class="glass-card rounded-2xl p-5 flex flex-col justify-between">
+          <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">System Curations</span>
+          <span id="metric-system-lists" class="text-3xl font-black text-brand-purple mt-1">--</span>
+          <span class="text-[10px] text-brand-purple/60 font-semibold mt-1">Default categories</span>
+        </div>
+        <!-- Metric Card -->
+        <div class="glass-card rounded-2xl p-5 flex flex-col justify-between">
+          <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Total Entries Included</span>
+          <span id="metric-total-anime" class="text-3xl font-black text-emerald-400 mt-1">--</span>
+          <span class="text-[10px] text-emerald-500/60 font-semibold mt-1">Archived anime projects</span>
+        </div>
+      </section>
+
+      <!-- SEARCH TOOLBAR & CONFIGURATION CONTROLS -->
+      <section class="glass-panel rounded-2xl p-4 sm:p-5 border border-white/5 flex flex-col md:flex-row items-center justify-between gap-4 z-20">
+        
+        <!-- Searchbox Wrapper -->
+        <div class="relative w-full md:max-w-md">
+          <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+          <input type="text" id="watchlist-search-input" placeholder="Search curated lists by title or description..." 
+            class="w-full pl-11 pr-10 py-3 bg-amoled/80 border border-white/10 rounded-xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-brand-blue/60 focus:ring-1 focus:ring-brand-blue/30 transition-all">
+          <button id="clear-search-btn" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white">
+            <i class="fa-solid fa-circle-xmark"></i>
+          </button>
+        </div>
+
+        <!-- Filter & Sorting Buttons Wrapper -->
+        <div class="flex items-center gap-3 w-full md:w-auto">
+          <!-- Sort Selector -->
+          <div class="flex items-center gap-2 w-full md:w-auto">
+            <span class="hidden sm:inline-block text-xs font-bold text-slate-500 uppercase tracking-wider">SortBy</span>
+            <select id="sort-selector" class="w-full md:w-auto px-4 py-3 bg-amoled border border-white/10 rounded-xl text-xs sm:text-sm text-slate-300 focus:outline-none focus:border-brand-blue/60 transition-all cursor-pointer">
+              <option value="PINNED">Priority: Pinned First</option>
+              <option value="NAME_ASC">Title: A to Z</option>
+              <option value="NAME_DESC">Title: Z to A</option>
+              <option value="SIZE_DESC">Size: Most Anime</option>
+              <option value="SIZE_ASC">Size: Least Anime</option>
+            </select>
+          </div>
+
+          <!-- Type Selector filter tag -->
+          <select id="type-selector" class="w-full md:w-auto px-4 py-3 bg-amoled border border-white/10 rounded-xl text-xs sm:text-sm text-slate-300 focus:outline-none focus:border-brand-blue/60 transition-all cursor-pointer">
+            <option value="ALL">Show All Categories</option>
+            <option value="SYSTEM">Default Folders</option>
+            <option value="CUSTOM">User Custom Lists</option>
+            <option value="PINNED_ONLY">Only Pinned Lists</option>
+          </select>
+        </div>
+
+      </section>
+
+      <!-- PINNED COLLECTIONS SECTION DECK -->
+      <section id="pinned-section" class="hidden flex-col gap-4">
+        <h3 class="text-base font-black text-white flex items-center gap-2">
+          <i class="fa-solid fa-thumbtack text-brand-cyan rotate-45"></i>
+          <span>Pinned Access Collections</span>
+        </h3>
+        <div id="pinned-lists-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <!-- pinned cards injected dynamically -->
+        </div>
+      </section>
+
+      <!-- COLLECTIONS GRID CONTAINER -->
+      <section class="flex flex-col gap-4">
+        <h3 class="text-base font-black text-white flex items-center gap-2">
+          <i class="fa-solid fa-rectangle-list text-brand-blue"></i>
+          <span>Database Collections Index</span>
+        </h3>
+        
+        <div id="collections-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <!-- Dynamically generated watchlist cards appear here -->
+        </div>
+      </section>
+
+      <!-- EMPTY STATE BLOCK -->
+      <section id="empty-state-container" class="hidden py-16 px-4 flex flex-col items-center justify-center text-center max-w-md mx-auto">
+        <div class="w-20 h-20 rounded-full bg-slate-900 flex items-center justify-center text-slate-600 mb-6 border border-white/5 shadow-inner">
+          <i class="fa-solid fa-folder-open text-3xl"></i>
+        </div>
+        <h3 class="text-xl font-bold text-slate-100 mb-2">No Databases Found</h3>
+        <p id="empty-message-desc" class="text-slate-400 text-sm mb-6 leading-relaxed">
+          No watchlists or folders match your active search terms or categories. Create a new collection or reset active filters.
+        </p>
+        <button id="reset-filters-btn" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-blue to-brand-purple hover:opacity-90 font-semibold text-xs text-white transition-all active:scale-95 shadow-md">
+          Reset Filter Selections
+        </button>
+      </section>
+
+    </main>
+
+    <!-- CREATE WATCHLIST POPUP MODAL -->
+    <div id="create-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
+      <div class="glass-panel rounded-2xl border border-white/10 w-full max-w-md overflow-hidden transform scale-95 transition-all duration-300 shadow-2xl">
+        
+        <div class="px-6 py-5 border-b border-white/5 flex items-center justify-between bg-slate-950/40">
+          <h3 class="text-lg font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-folder-plus text-brand-blue"></i>
+            <span>Create New Collection</span>
+          </h3>
+          <button onclick="closeCreateWatchlistModal()" class="w-8 h-8 rounded-lg hover:bg-white/5 flex items-center justify-center text-slate-400 hover:text-white transition-all">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div class="p-6 flex flex-col gap-4">
+          <!-- Watchlist Title -->
+          <div>
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wide mb-2">Watchlist Title</label>
+            <input type="text" id="input-title" placeholder="e.g., Spring Masterpieces, Retro Classics..." 
+              class="w-full px-4 py-3 bg-amoled border border-white/10 rounded-xl text-sm text-slate-100 focus:outline-none focus:border-brand-blue/60 transition-all">
+          </div>
+
+          <!-- Watchlist Description -->
+          <div>
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wide mb-2">Collection Overview Description</label>
+            <textarea id="input-desc" placeholder="Briefly summarize what this custom watchlists folder gathers..." 
+              class="w-full px-4 py-3 bg-amoled border border-white/10 rounded-xl text-sm text-slate-100 focus:outline-none focus:border-brand-blue/60 transition-all min-h-[80px] resize-none"></textarea>
+          </div>
+
+          <!-- Cover Image Artwork URL -->
+          <div>
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wide mb-2">Cover Banner URL (Optional)</label>
+            <input type="text" id="input-cover" placeholder="Image URL (Unsplash or direct JPG links)" 
+              class="w-full px-4 py-3 bg-amoled border border-white/10 rounded-xl text-sm text-slate-100 focus:outline-none focus:border-brand-blue/60 transition-all">
+          </div>
+
+          <!-- Icon Select mapping -->
+          <div>
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wide mb-2">Collection Graphic Icon</label>
+            <select id="input-icon" class="w-full px-4 py-3 bg-amoled border border-white/10 rounded-xl text-sm text-slate-300 focus:outline-none focus:border-brand-blue/60 transition-all cursor-pointer">
+              <option value="fa-star">★ Star Icon (Rating Based)</option>
+              <option value="fa-heart">♥ Heart Icon (Favorites)</option>
+              <option value="fa-tv">■ TV / Broadcast Icon</option>
+              <option value="fa-film">● Movie Feature Icon</option>
+              <option value="fa-fire">▲ Trending Broadcast Icon</option>
+              <option value="fa-tags">♦ Curated Categories Icon</option>
+            </select>
+          </div>
+
+          <!-- Pinned Checklist trigger -->
+          <div class="flex items-center justify-between p-3 bg-amoled rounded-xl border border-white/5 mt-2">
+            <div class="flex flex-col">
+              <span class="text-xs sm:text-sm font-bold text-slate-200">Pin to Dashboard Quick Access</span>
+              <span class="text-[10px] text-slate-500">Gives this collection priority ranking layouts</span>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="input-pinned" class="sr-only peer">
+              <div class="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-blue"></div>
+            </label>
+          </div>
+        </div>
+
+        <div class="px-6 py-4 border-t border-white/5 bg-[#04040a] flex items-center justify-end gap-3 shrink-0">
+          <button onclick="closeCreateWatchlistModal()" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 text-xs font-bold transition-all">Cancel</button>
+          <button onclick="saveNewCuratedWatchlist()" class="px-5 py-2 rounded-xl bg-brand-blue hover:bg-blue-600 text-white text-xs font-extrabold transition-all active:scale-95 shadow-md shadow-brand-blue/20">Create Folder</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- NOTIFICATION SNACKBAR TOAST -->
+    <div id="toast-notification" class="fixed bottom-6 right-6 z-[100] transform translate-y-20 opacity-0 pointer-events-none transition-all duration-300 glass-panel border border-brand-blue/30 rounded-2xl p-4 shadow-2xl flex items-center gap-3.5 max-w-sm">
+      <div class="w-10 h-10 rounded-xl bg-brand-blue/10 flex items-center justify-center text-brand-blue text-base shrink-0">
+        <i class="fa-solid fa-bell animate-pulse"></i>
+      </div>
+      <div>
+        <h5 id="toast-title" class="font-bold text-xs text-white">Watchlist Update</h5>
+        <p id="toast-body" class="text-slate-400 text-[11px] mt-0.5 leading-tight">Collection updated successfully.</p>
+      </div>
+    </div>
+
+    <!-- MAIN BRANDED FOOTER -->
+    <footer class="mt-auto border-t border-white/5 bg-slate-950/40 py-8 relative z-10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center gap-4">
+        <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='schedule.html'">
+          <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-brand-blue to-brand-purple flex items-center justify-center">
+            <i class="fa-solid fa-bolt text-white text-xs"></i>
+          </div>
+          <span class="font-extrabold text-sm tracking-tight text-white">
+            Anime.Keep
+          </span>
+        </div>
+        <p class="text-xs text-slate-500 max-w-md leading-relaxed">
+          Curate, organize, and prioritize collections. All items metadata synced dynamically inside local browser sandboxes.
+        </p>
+        <p class="text-[10px] text-slate-600">
+          &copy; 2026 Anime.Keep. Curations & Watchlist parameters preserved locally.
+        </p>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- JAVASCRIPT CONTROLLERS ENGINE -->
+  <script>
+    const WATCHLIST_STORAGE_KEY = "anime_keep_watchlists_db";
+
+    // Standard high-fidelity curated defaults to populate new dashboards out-of-the-box
+    const defaultCuratedWatchlists = [
+      {
+        id: "sys_favs",
+        title: "Masterpiece Tier (Favorites)",
+        description: "Anime entries containing perfect rating values and flawless production metrics.",
+        coverUrl: "https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=400&auto=format&fit=crop",
+        icon: "fa-heart",
+        pinned: true,
+        type: "SYSTEM",
+        animeCount: 24,
+        accentColor: "from-amber-500/10 to-amber-500/20 text-amber-400 border-amber-500/20"
+      },
+      {
+        id: "sys_completed",
+        title: "Archived Completions",
+        description: "Entire catalog collections of completed anime broadcasts.",
+        coverUrl: "https://imag
