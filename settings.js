@@ -1,4 +1,3 @@
-```javascript
 /**
  * Anime.Keep - Settings & Personalization Module Engine
  * -----------------------------------------------------------------------------
