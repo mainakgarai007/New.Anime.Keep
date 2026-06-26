@@ -1,82 +1,62 @@
-/* ==========================================================================
-   ANIME.KEEP - MG STYLE SYSTEM (DARK AMOLED)
-   Version: 1.0.0
-   Author: Senior UI/UX Designer & CSS Architect
+/* ================================================================================
+   ANIME.KEEP - PRIMARY ARCHITECTURAL STYLESHEET (MG STYLE)
+   Architect: Senior UI/UX Designer & CSS Architect
+   Tagline: Track • Organize • Discover • Watch • Connect
    Inspirations: Google Keep, AniList, Notion, Discord, Material Design 3
-   ========================================================================== */
+================================================================================
+*/
 
-/* --------------------------------------------------------------------------
-   01. IMPORT FONTS
-   -------------------------------------------------------------------------- */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap');
-
-/* --------------------------------------------------------------------------
-   02. DESIGN SYSTEM & VARIABLES
-   -------------------------------------------------------------------------- */
+/* --- 1. DESIGN SYSTEM VARIABLES & TOKENS --- */
 :root {
-  /* Theme Colors (AMOLED Optimized) */
-  --bg-main: #0B0D10;
-  --bg-secondary: #151922;
-  --bg-card: #1C2230;
-  --bg-hover: #252D40;
+  /* AMOLED Base Colorways */
+  --bg-amoled: #020205;
+  --bg-dark-900: #0b0d10;
+  --bg-dark-800: #151922;
+  --bg-dark-700: #1c2230;
+  --bg-dark-600: #252d40;
   
-  /* Text Colors */
-  --text-primary: #F8F9FA;
-  --text-secondary: #909BB0;
-  --text-muted: #57657A;
-  
-  /* Accent Colors */
-  --color-blue: #0066FF;
-  --color-blue-rgb: 0, 102, 255;
-  --color-purple: #9D4EDD;
-  --color-purple-rgb: 157, 78, 221;
-  --color-cyan: #00F5D4;
-  --color-cyan-rgb: 0, 245, 212;
-  --color-pink: #FF007F;
-  --color-pink-rgb: 255, 0, 127;
-  --color-emerald: #10B981;
-  --color-emerald-rgb: 16, 185, 129;
-  --color-white: #FFFFFF;
-  --color-white-rgb: 255, 255, 255;
-  
-  /* Gradients */
-  --grad-primary: linear-gradient(135deg, var(--color-blue), var(--color-purple));
-  --grad-cyan-blue: linear-gradient(135deg, var(--color-cyan), var(--color-blue));
-  --grad-pink-purple: linear-gradient(135deg, var(--color-pink), var(--color-purple));
-  --grad-dark: linear-gradient(180deg, rgba(21, 25, 34, 0.4) 0%, rgba(28, 34, 48, 0.8) 100%);
-  
-  /* Layout & Sizing */
-  --navbar-height: 72px;
-  --border-radius-xs: 4px;
-  --border-radius-sm: 8px;
-  --border-radius-md: 12px;
-  --border-radius-lg: 18px;
-  --border-radius-xl: 24px;
-  --border-radius-pill: 9999px;
-  
-  /* Shadows */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.6);
-  --shadow-blue: 0 8px 30px rgba(0, 102, 255, 0.25);
-  --shadow-purple: 0 8px 30px rgba(157, 78, 221, 0.25);
-  --shadow-glow: 0 0 15px rgba(255, 255, 255, 0.05);
+  --bg-glass: rgba(11, 13, 16, 0.45);
+  --bg-glass-hover: rgba(21, 25, 34, 0.7);
+  --border-glass: rgba(255, 255, 255, 0.06);
+  --border-glass-active: rgba(59, 130, 246, 0.35);
 
-  /* Glassmorphism Defaults */
-  --glass-bg: rgba(28, 34, 48, 0.5);
-  --glass-border: rgba(255, 255, 255, 0.06);
-  --glass-blur: blur(14px);
+  /* Typography Fonts */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Poppins', 'Plus Jakarta Sans', sans-serif;
 
-  /* Animations & Transitions */
-  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-bounce: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* Accent Color Palettes */
+  --brand-blue: #3b82f6;
+  --brand-purple: #a855f7;
+  --brand-cyan: #06b6d4;
+  --brand-pink: #ec4899;
+  --brand-amber: #f59e0b;
+  --brand-emerald: #10b981;
+  --brand-rose: #f43f5e;
+  --text-soft-white: #f1f5f9;
+  --text-slate-400: #94a3b8;
+  --text-slate-500: #64748b;
+
+  /* Glow Shadows & Outlines */
+  --glow-blue: 0 0 25px rgba(59, 130, 246, 0.25);
+  --glow-purple: 0 0 25px rgba(168, 85, 247, 0.20);
+  --glow-cyan: 0 0 25px rgba(6, 182, 212, 0.25);
+  --glow-emerald: 0 0 25px rgba(16, 185, 129, 0.20);
+  --glow-rose: 0 0 25px rgba(244, 63, 94, 0.20);
+  --glow-pink: 0 0 25px rgba(236, 72, 153, 0.25);
+
+  /* Structural Spacers */
+  --radius-2xl: 24px;
+  --radius-xl: 16px;
+  --radius-lg: 12px;
+  --radius-md: 8px;
+  --radius-sm: 4px;
+
+  /* Smooth Transitions (Spring-like Easing) */
+  --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-snappy: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* --------------------------------------------------------------------------
-   03. RESET & BASE STYLES
-   -------------------------------------------------------------------------- */
+/* --- 2. GLOBAL RESET & BASE STYLES --- */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -84,155 +64,46 @@
 }
 
 html {
-  font-size: 16px;
   scroll-behavior: smooth;
-  -webkit-tap-highlight-color: transparent;
+  scroll-padding-top: 90px;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background-color: var(--bg-main);
-  color: var(--text-primary);
-  font-family: 'Inter', sans-serif;
-  min-height: 100vh;
+  background-color: var(--bg-amoled);
+  color: var(--text-soft-white);
+  font-family: var(--font-sans);
   line-height: 1.6;
-  overflow-x: hidden;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
 }
 
-/* Custom Scrollbar */
+/* --- 3. CUSTOM SCROLLBAR ENGINE --- */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-main);
+  background: var(--bg-amoled);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--bg-secondary);
-  border: 2px solid var(--bg-main);
-  border-radius: var(--border-radius-pill);
+  background: var(--bg-dark-700);
+  border-radius: 999px;
+  border: 1px solid var(--bg-amoled);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--bg-hover);
+  background: var(--brand-blue);
 }
 
-/* Selection */
-::selection {
-  background-color: rgba(var(--color-blue-rgb), 0.3);
-  color: var(--color-white);
-}
-
-/* Layout Core Elements */
-a {
-  color: inherit;
-  text-decoration: none;
-  transition: color var(--transition-fast);
-}
-
-img, svg {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-
-button, input, select, textarea {
-  font-family: inherit;
-  font-size: inherit;
-  color: inherit;
-  background: none;
-  border: none;
-  outline: none;
-}
-
-/* --------------------------------------------------------------------------
-   04. ACCESSIBILITY STYLES
-   -------------------------------------------------------------------------- */
-:focus-visible {
-  outline: 2px solid var(--color-blue);
-  outline-offset: 3px;
-}
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* --------------------------------------------------------------------------
-   05. TYPOGRAPHY CLASSES
-   -------------------------------------------------------------------------- */
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 700;
-  line-height: 1.25;
-  color: var(--text-primary);
-}
-
-h1 { font-size: 2.5rem; letter-spacing: -0.02em; }
-h2 { font-size: 2rem; letter-spacing: -0.01em; }
-h3 { font-size: 1.5rem; }
-h4 { font-size: 1.25rem; }
-h5 { font-size: 1rem; }
-
-.font-poppins { font-family: 'Poppins', sans-serif; }
-.font-inter { font-family: 'Inter', sans-serif; }
-
-.text-gradient-primary {
-  background: var(--grad-primary);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.text-gradient-cyan {
-  background: var(--grad-cyan-blue);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.text-gradient-pink {
-  background: var(--grad-pink-purple);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.text-secondary { color: var(--text-secondary); }
-.text-muted { color: var(--text-muted); }
-.text-blue { color: var(--color-blue); }
-.text-purple { color: var(--color-purple); }
-.text-cyan { color: var(--color-cyan); }
-.text-pink { color: var(--color-pink); }
-.text-emerald { color: var(--color-emerald); }
-
-.text-xs { font-size: 0.75rem; }
-.text-sm { font-size: 0.875rem; }
-.text-base { font-size: 1rem; }
-.text-lg { font-size: 1.125rem; }
-.text-xl { font-size: 1.25rem; }
-
-.font-light { font-weight: 300; }
-.font-regular { font-weight: 400; }
-.font-medium { font-weight: 500; }
-.font-semibold { font-weight: 600; }
-.font-bold { font-weight: 700; }
-.font-black { font-weight: 800; }
-
-/* --------------------------------------------------------------------------
-   06. ANIMATIONS
-   -------------------------------------------------------------------------- */
+/* --- 4. ANIMATIONS & DYNAMIC KEYFRAMES --- */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -241,7 +112,7 @@ h5 { font-size: 1rem; }
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -260,534 +131,392 @@ h5 { font-size: 1rem; }
   }
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
 @keyframes pulseGlow {
-  0%, 100% {
-    opacity: 0.6;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.05);
-  }
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 1; }
 }
 
-@keyframes shimmer {
+@keyframes shimmer-sweep {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 }
 
-@keyframes ripple {
-  0% {
-    width: 0;
-    height: 0;
-    opacity: 0.5;
-  }
-  100% {
-    width: 400px;
-    height: 400px;
-    opacity: 0;
-  }
+@keyframes float-ambient {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-8px) scale(1.02); }
 }
 
-/* Animation Utility Trigger Classes */
-.anim-fade-in { animation: fadeIn var(--transition-normal) forwards; }
-.anim-slide-up { animation: slideUp var(--transition-normal) cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-.anim-scale-in { animation: scaleIn var(--transition-normal) cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
-.anim-float { animation: float 6s ease-in-out infinite; }
-.anim-pulse { animation: pulseGlow 3s ease-in-out infinite; }
-
-/* Delay Utility Classes */
-.delay-1 { animation-delay: 100ms; }
-.delay-2 { animation-delay: 200ms; }
-.delay-3 { animation-delay: 300ms; }
-.delay-4 { animation-delay: 400ms; }
-
-/* --------------------------------------------------------------------------
-   07. LAYOUT UTILITIES & CONTAINERS
-   -------------------------------------------------------------------------- */
-.container {
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  max-width: 1440px;
+/* Animation Utilities */
+.animate-fade {
+  animation: fadeIn 0.4s ease-out forwards;
 }
 
-.flex { display: flex; }
-.inline-flex { display: inline-flex; }
-.grid { display: grid; }
-
-.flex-col { flex-direction: column; }
-.flex-row { flex-direction: row; }
-.flex-wrap { flex-wrap: wrap; }
-
-.align-start { align-items: flex-start; }
-.align-center { align-items: center; }
-.align-end { align-items: flex-end; }
-.align-stretch { align-items: stretch; }
-
-.justify-start { justify-content: flex-start; }
-.justify-center { justify-content: center; }
-.justify-end { justify-content: flex-end; }
-.justify-between { justify-content: space-between; }
-.justify-around { justify-content: space-around; }
-
-/* Spacing and Grid Layout Gaps */
-.gap-1 { gap: 0.25rem; }
-.gap-2 { gap: 0.5rem; }
-.gap-3 { gap: 0.75rem; }
-.gap-4 { gap: 1rem; }
-.gap-6 { gap: 1.5rem; }
-.gap-8 { gap: 2rem; }
-.gap-12 { gap: 3rem; }
-
-/* Layout Grid Templates */
-.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
-.grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-
-/* Responsive Grids */
-.responsive-grid-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 1.5rem;
+.animate-slide {
+  animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.responsive-grid-categories {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
+.animate-scale {
+  animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Spacing Helpers */
-.m-0 { margin: 0; }
-.mt-1 { margin-top: 0.25rem; }
-.mt-2 { margin-top: 0.5rem; }
-.mt-3 { margin-top: 0.75rem; }
-.mt-4 { margin-top: 1rem; }
-.mt-6 { margin-top: 1.5rem; }
-.mt-8 { margin-top: 2rem; }
-.mt-12 { margin-top: 3rem; }
+.animate-float {
+  animation: float-ambient 8s infinite ease-in-out;
+}
 
-.mb-1 { margin-bottom: 0.25rem; }
-.mb-2 { margin-bottom: 0.5rem; }
-.mb-3 { margin-bottom: 0.75rem; }
-.mb-4 { margin-bottom: 1rem; }
-.mb-6 { margin-bottom: 1.5rem; }
-.mb-8 { margin-bottom: 2rem; }
-.mb-12 { margin-bottom: 3rem; }
+/* --- 5. GLASSMORPHISM CORE CLASS --- */
+.glass-panel {
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-glass);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.6);
+}
 
-.p-0 { padding: 0; }
-.p-2 { padding: 0.5rem; }
-.p-3 { padding: 0.75rem; }
-.p-4 { padding: 1rem; }
-.p-6 { padding: 1.5rem; }
-.p-8 { padding: 2rem; }
-
-.py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
-.py-4 { padding-top: 1rem; padding-bottom: 1rem; }
-.py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
-.py-8 { padding-top: 2rem; padding-bottom: 2rem; }
-.py-12 { padding-top: 3rem; padding-bottom: 3rem; }
-
-.px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
-.px-4 { padding-left: 1rem; padding-right: 1rem; }
-.px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
-.px-8 { padding-left: 2rem; padding-right: 2rem; }
-
-/* Display & Visibility Utilities */
-.hidden { display: none !important; }
-.block { display: block !important; }
-.relative { position: relative !important; }
-.absolute { position: absolute !important; }
-.overflow-hidden { overflow: hidden !important; }
-.w-full { width: 100% !important; }
-.h-full { height: 100% !important; }
-
-/* --------------------------------------------------------------------------
-   08. STICKY GLASS NAVBAR
-   -------------------------------------------------------------------------- */
-.navbar {
+/* --- 6. NAVBAR & PREMIUM HEADER --- */
+header.sticky {
   position: sticky;
   top: 0;
-  z-index: 100;
-  height: var(--navbar-height);
-  background-color: rgba(11, 13, 16, 0.7);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border-bottom: 1px solid var(--glass-border);
-  transition: background-color var(--transition-normal), border-color var(--transition-normal);
+  z-index: 50;
+  transition: var(--transition-smooth);
 }
 
-.navbar--scrolled {
-  background-color: rgba(11, 13, 16, 0.9);
-  border-bottom-color: rgba(255, 255, 255, 0.1);
-  box-shadow: var(--shadow-sm);
+header.glass-panel {
+  background: rgba(2, 2, 5, 0.65);
 }
 
-.navbar-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 100%;
+header .h-16 {
+  transition: var(--transition-smooth);
 }
 
-.navbar-brand {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 800;
-  font-size: 1.5rem;
-  letter-spacing: -0.02em;
-}
-
-.navbar-brand-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: var(--border-radius-pill);
-  background: var(--grad-primary);
-  display: inline-block;
-  box-shadow: 0 0 10px var(--color-blue);
-}
-
-.navbar-menu {
-  display: none; /* Mobile hidden by default */
-  align-items: center;
-  gap: 1.5rem;
-}
-
-.navbar-link {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 500;
-  font-size: 0.95rem;
-  color: var(--text-secondary);
+/* Glow indicators on profile and control icon buttons */
+header button,
+header a {
   position: relative;
-  padding: 0.5rem 0;
+  overflow: hidden;
 }
 
-.navbar-link:hover,
-.navbar-link.active {
-  color: var(--text-primary);
-}
-
-.navbar-link::after {
+header button::after {
   content: '';
   position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: var(--grad-primary);
-  border-radius: var(--border-radius-pill);
-  transition: width var(--transition-normal);
-}
-
-.navbar-link:hover::after,
-.navbar-link.active::after {
-  width: 100%;
-}
-
-.navbar-actions {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-/* Mobile Nav Toggle Button */
-.nav-toggle {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 24px;
-  height: 18px;
-  cursor: pointer;
-  z-index: 101;
-}
-
-.nav-toggle-bar {
-  width: 100%;
-  height: 2px;
-  background-color: var(--text-primary);
-  border-radius: var(--border-radius-pill);
-  transition: transform var(--transition-normal), opacity var(--transition-normal);
-}
-
-.nav-toggle.active .nav-toggle-bar:nth-child(1) {
-  transform: translateY(8px) rotate(45deg);
-}
-
-.nav-toggle.active .nav-toggle-bar:nth-child(2) {
+  inset: 0;
+  background: var(--brand-blue);
   opacity: 0;
+  transition: var(--transition-snappy);
 }
 
-.nav-toggle.active .nav-toggle-bar:nth-child(3) {
-  transform: translateY(-8px) rotate(-45deg);
+header button:hover::after {
+  opacity: 0.05;
 }
 
-/* Mobile Sidebar Drawer style */
-.mobile-drawer {
-  position: fixed;
-  top: 0;
-  right: -100%;
-  width: 80%;
-  max-width: 360px;
-  height: 100vh;
-  background-color: var(--bg-secondary);
-  border-left: 1px solid var(--glass-border);
-  box-shadow: var(--shadow-lg);
-  z-index: 99;
-  display: flex;
-  flex-direction: column;
-  padding: calc(var(--navbar-height) + 2rem) 2rem 2rem 2rem;
-  transition: right var(--transition-bounce);
+/* Active scale on click */
+header button:active {
+  transform: scale(0.95);
 }
 
-.mobile-drawer.active {
-  right: 0;
+/* --- 7. SEARCH & FILTER INTERACTION --- */
+#animeSearchBox {
+  background: rgba(11, 13, 16, 0.6);
+  border: 1px solid var(--border-glass);
+  color: var(--text-soft-white);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+  transition: var(--transition-smooth);
 }
 
-.mobile-drawer-link {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
-  font-size: 1.25rem;
-  color: var(--text-secondary);
-  padding: 1rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+#animeSearchBox:focus {
+  border-color: var(--brand-blue);
+  background: rgba(21, 25, 34, 0.8);
+  box-shadow: 0 0 20px var(--brand-accent-glow, rgba(59, 130, 246, 0.15)),
+              inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  outline: none;
 }
 
-.mobile-drawer-link:hover,
-.mobile-drawer-link.active {
-  color: var(--text-primary);
-  border-bottom-color: var(--color-blue);
+/* Filter panel dropdown toggle actions */
+#filterToggleBtn {
+  transition: var(--transition-snappy);
 }
 
-/* --------------------------------------------------------------------------
-   09. MODERN SEARCH BAR
-   -------------------------------------------------------------------------- */
-.search-container {
-  position: relative;
-  width: 100%;
-  max-width: 640px;
-  margin: 0 auto;
+#filterToggleBtn:hover {
+  border-color: var(--brand-purple);
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.15);
 }
 
-.search-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  background: var(--bg-secondary);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: var(--border-radius-pill);
-  padding: 0.25rem;
-  transition: border-color var(--transition-normal), box-shadow var(--transition-normal), transform var(--transition-fast);
-}
+/* --- 8. BUTTONS: PRIMARY, SECONDARY, ICON, FAB --- */
 
-.search-wrapper:focus-within {
-  border-color: rgba(var(--color-blue-rgb), 0.8);
-  box-shadow: 0 0 20px rgba(var(--color-blue-rgb), 0.25);
-  background: var(--bg-card);
-}
-
-.search-input {
-  width: 100%;
-  height: 48px;
-  padding: 0 1rem 0 3rem;
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.search-input::placeholder {
-  color: var(--text-muted);
-}
-
-.search-icon {
-  position: absolute;
-  left: 1.25rem;
-  color: var(--text-muted);
-  pointer-events: none;
-  transition: color var(--transition-fast);
-}
-
-.search-wrapper:focus-within .search-icon {
-  color: var(--color-blue);
-}
-
-.search-action-btn {
-  background: var(--grad-primary);
-  color: var(--color-white);
-  border-radius: var(--border-radius-pill);
-  height: 40px;
-  padding: 0 1.25rem;
-  font-weight: 600;
-  font-size: 0.875rem;
-  letter-spacing: -0.01em;
-  margin-right: 0.25rem;
-  cursor: pointer;
-  transition: opacity var(--transition-fast), transform var(--transition-fast);
-}
-
-.search-action-btn:hover {
-  opacity: 0.9;
-  transform: scale(1.02);
-}
-
-.search-action-btn:active {
-  transform: scale(0.98);
-}
-
-/* --------------------------------------------------------------------------
-   10. BUTTON SYSTEM (PRIMARY, SECONDARY, ICON, FAB)
-   -------------------------------------------------------------------------- */
-.btn {
+/* Base Button design resets */
+button, .btn-premium {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
-  font-size: 0.925rem;
-  text-align: center;
-  border-radius: var(--border-radius-md);
-  padding: 0.75rem 1.5rem;
+  gap: 8px;
+  border: none;
   cursor: pointer;
+  outline: none;
+  text-decoration: none;
+  font-family: var(--font-sans);
+}
+
+/* Ripple effect anchor container */
+.ripple-ready {
   position: relative;
   overflow: hidden;
-  user-select: none;
-  transition: color var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
-}
-
-/* Ripple Ready Effect Setup */
-.btn::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  pointer-events: none;
-}
-
-.btn:active::after {
-  animation: ripple 0.6s ease-out;
-}
-
-/* Primary Button Modifier */
-.btn-primary {
-  background: var(--grad-primary);
-  color: var(--color-white);
-  box-shadow: var(--shadow-blue);
-}
-
-.btn-primary:hover {
-  box-shadow: 0 12px 35px rgba(0, 102, 255, 0.4);
-  transform: translateY(-2px);
-}
-
-.btn-primary:active {
-  transform: translateY(0);
-}
-
-/* Secondary Button Modifier */
-.btn-secondary {
-  background-color: var(--bg-card);
-  color: var(--text-primary);
-  border: 1px solid var(--glass-border);
-}
-
-.btn-secondary:hover {
-  background-color: var(--bg-hover);
-  border-color: rgba(255, 255, 255, 0.15);
-  transform: translateY(-2px);
-}
-
-.btn-secondary:active {
-  transform: translateY(0);
-}
-
-/* Icon Button (Round Circle Style) */
-.btn-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: var(--border-radius-pill);
-  background-color: var(--bg-card);
-  border: 1px solid var(--glass-border);
-  color: var(--text-secondary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.btn-icon:hover {
-  color: var(--text-primary);
-  background-color: var(--bg-hover);
-  border-color: rgba(255, 255, 255, 0.15);
-  transform: scale(1.05);
-}
-
-.btn-icon:active {
-  transform: scale(0.95);
 }
 
 /* Floating Action Button (FAB) */
-.fab-button {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  z-index: 90;
-  width: 56px;
-  height: 56px;
-  border-radius: 16px; /* MD3 Style curved square */
-  background: var(--grad-primary);
-  color: var(--color-white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 10px 30px rgba(0, 102, 255, 0.4);
-  cursor: pointer;
-  transition: transform var(--transition-bounce), box-shadow var(--transition-fast);
+#addAnimeBtn {
+  box-shadow: 0 8px 30px rgba(59, 130, 246, 0.4),
+              inset 0 2px 4px rgba(255, 255, 255, 0.2);
+  transition: var(--transition-smooth);
 }
 
-.fab-button:hover {
-  transform: scale(1.1) rotate(5deg);
-  box-shadow: 0 14px 40px rgba(0, 102, 255, 0.6);
+#addAnimeBtn:hover {
+  transform: translateY(-4px) scale(1.08);
+  box-shadow: 0 12px 35px rgba(59, 130, 246, 0.6);
 }
 
-.fab-button:active {
-  transform: scale(0.95);
+#addAnimeBtn:active {
+  transform: scale(0.92);
 }
 
-/* Rounded Pill Option */
-.btn-pill {
-  border-radius: var(--border-radius-pill);
+/* --- 9. CATEGORY CARDS (PREMIUM CHASSIS) --- */
+.group.rounded-2xl {
+  border-radius: var(--radius-2xl);
+  background: rgba(21, 25, 34, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-glass);
+  transition: var(--transition-smooth);
 }
 
-/* --------------------------------------------------------------------------
-   11. CATEGORY CARDS (PREMIUM KEEP STYLE)
-   -------------------------------------------------------------------------- */
-.category-card {
+/* Unique Category Accent Color glows & borders */
+
+/* 1.📺 Ongoing Anime Card */
+.group.rounded-2xl:nth-child(1):hover {
+  border-color: var(--brand-blue);
+  box-shadow: 0 12px 35px -10px var(--glow-blue),
+              0 0 20px -10px var(--brand-blue);
+  transform: translateY(-6px);
+}
+
+/* 2.⏳ Waiting Card */
+.group.rounded-2xl:nth-child(2):hover {
+  border-color: var(--brand-purple);
+  box-shadow: 0 12px 35px -10px var(--glow-purple),
+              0 0 20px -10px var(--brand-purple);
+  transform: translateY(-6px);
+}
+
+/* 3.✅ Completed Card */
+.group.rounded-2xl:nth-child(3):hover {
+  border-color: var(--brand-emerald);
+  box-shadow: 0 12px 35px -10px var(--glow-emerald),
+              0 0 20px -10px var(--brand-emerald);
+  transform: translateY(-6px);
+}
+
+/* 4.❌ Dropped Card */
+.group.rounded-2xl:nth-child(4):hover {
+  border-color: var(--brand-rose);
+  box-shadow: 0 12px 35px -10px var(--glow-rose),
+              0 0 20px -10px var(--brand-rose);
+  transform: translateY(-6px);
+}
+
+/* 5.✨ Suggestions Card */
+.group.rounded-2xl:nth-child(5):hover {
+  border-color: var(--brand-pink);
+  box-shadow: 0 12px 35px -10px var(--glow-pink),
+              0 0 20px -10px var(--brand-pink);
+  transform: translateY(-6px);
+}
+
+/* 6.📅 Anime Schedule Card */
+.group.rounded-2xl:nth-child(6):hover {
+  border-color: var(--brand-cyan);
+  box-shadow: 0 12px 35px -10px var(--glow-cyan),
+              0 0 20px -10px var(--brand-cyan);
+  transform: translateY(-6px);
+}
+
+/* Category Empty State Boxes */
+.group .py-6 {
+  border-radius: var(--radius-lg);
+  background: rgba(2, 2, 5, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  transition: var(--transition-smooth);
+}
+
+.group:hover .py-6 {
+  background: rgba(2, 2, 5, 0.5);
+}
+
+/* --- 10. ANIME COVER CARDS (MG FRAME) --- */
+.anime-card-poster-wrapper {
   position: relative;
-  background-color: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border-radius: var(--border-radius-xl);
-  padding: 2rem;
-  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
   overflow: hidden;
-  cursor: pointer;
-  display: flex;
- 
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  transition: var(--transition-smooth);
+}
+
+.anime-card-poster-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(2, 2, 5, 0.9) 0%, rgba(2, 2, 5, 0) 50%);
+  opacity: 0.8;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.anime-card-poster-wrapper img {
+  transition: var(--transition-smooth);
+}
+
+/* Zoom poster art on card hover */
+.anime-card-parent:hover img {
+  transform: scale(1.05) rotate(0.5deg);
+}
+
+.anime-card-parent:hover .anime-card-poster-wrapper {
+  box-shadow: 0 16px 40px rgba(59, 130, 246, 0.25);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+/* --- 11. SKELETON LOADING SHIMMERING EFFECT --- */
+.shimmer-bg {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.03) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.03) 75%
+  );
+  background-size: 200% 100%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-pulse .absolute {
+  animation: shimmer 1.6s infinite linear;
+}
+
+/* --- 12. STATS LEDGER CARDS --- */
+.rounded-2xl.border-white\/5 {
+  transition: var(--transition-smooth);
+}
+
+.rounded-2xl.border-white\/5:hover {
+  transform: translateY(-2px);
+  background: rgba(21, 25, 34, 0.35);
+}
+
+.rounded-2xl.border-white\/5 span.font-display {
+  background: linear-gradient(to right, #ffffff, #94a3b8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* --- 13. SYSTEM MODAL BOXS FRAME --- */
+div[role="dialog"] {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: var(--transition-smooth);
+}
+
+/* Animation trigger helpers inside app.js */
+.modal-active {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+.modal-active > div {
+  transform: scale(1) !important;
+}
+
+/* --- 14. MOBILE SIDEBAR NAVIGATION DRAWER --- */
+#mobileSidebarMenu {
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Class trigger for open drawer */
+.sidebar-open {
+  transform: translateX(0) !important;
+}
+
+/* --- 15. MAIN SCREEN LAYOUT RESPONSIVE GRIDS --- */
+@media (min-width: 640px) {
+  /* Small (tablets) */
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 768px) {
+  /* Medium (Landscape tablets) */
+  .grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  /* Large (laptops) */
+  .grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  
+  .grid-cols-6 {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  /* Extra large (desktops) */
+  .max-w-7xl {
+    max-width: 80rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  /* Ultra wide displays */
+  .max-w-7xl {
+    max-width: 96rem;
+  }
+}
+
+/* --- 16. ACCESSIBILITY OVERRIDES (REDUCED MOTION) --- */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-delay: 0s !important;
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0s !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .group:hover,
+  .anime-card-parent:hover img,
+  #addAnimeBtn:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  
+  div[role="dialog"] {
+    backdrop-filter: none !important;
+  }
+}
+
+/* Focus indicator states accessibility maps */
+input:focus-visible,
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--brand-blue);
+  outline-offset: 2px;
+}
