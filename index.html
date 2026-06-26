@@ -1,0 +1,361 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Anime.Keep - Track, Organize, Discover, Watch, and Connect inside a premium, dark AMOLED dashboard.">
+    <title>Anime.Keep — Track • Organize • Discover • Watch • Connect</title>
+    <!-- Premium Google Fonts (Plus Jakarta Sans for modern minimal UI) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Link to external style.css -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-dark-amoled">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="header-premium">
+        <div class="header-container">
+            <div class="header-left">
+                <button class="btn-icon hamburger-menu" id="hamburgerMenuBtn" aria-label="Toggle Navigation Menu" aria-expanded="false">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon">
+                        <line x1="4" y1="12" x2="20" y2="12"></line>
+                        <line x1="4" y1="6" x2="20" y2="6"></line>
+                        <line x1="4" y1="18" x2="20" y2="18"></line>
+                    </svg>
+                </button>
+                <a href="#" class="logo" aria-label="Anime.Keep Home">
+                    <span class="logo-text">Anime<span class="logo-dot">.</span>Keep</span>
+                </a>
+            </div>
+
+            <div class="header-right">
+                <button class="btn-icon header-search-trigger" id="headerSearchBtn" aria-label="Open Search">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+                
+                <button class="btn-icon notification-bell" id="notificationBtn" aria-label="View Notifications" aria-haspopup="true">
+                    <span class="notification-indicator" aria-hidden="true"></span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                </button>
+
+                <button class="btn-icon settings-trigger" id="settingsBtn" aria-label="Open Settings">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                </button>
+
+                <div class="profile-dropdown-wrapper">
+                    <button class="profile-trigger" id="profileMenuBtn" aria-label="Open Profile Menu" aria-haspopup="true">
+                        <div class="avatar-placeholder" aria-hidden="true">
+                            <span class="avatar-initials">AK</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="main-container">
+
+        <!-- HERO SECTION -->
+        <section class="hero-section" aria-labelledby="heroTitle">
+            <div class="hero-bg-animated" aria-hidden="true">
+                <!-- Background visual mesh/gradient wrapper placeholder -->
+                <div class="glowing-mesh glow-1"></div>
+                <div class="glowing-mesh glow-2"></div>
+                <div class="glowing-mesh glow-3"></div>
+            </div>
+            <div class="hero-content">
+                <h1 id="heroTitle" class="hero-title">Track • Organize <br><span class="accent-gradient">Discover • Watch • Connect</span></h1>
+                <p class="hero-welcome">
+                    Welcome to your highly structured, fluid workspace built specifically for managing your anime journey. Minimal design with extreme power.
+                </p>
+                <div class="hero-actions">
+                    <a href="#search" class="btn btn-primary" role="button">
+                        <span class="btn-text">Explore Anime</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="svg-icon-small">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </a>
+                    <a href="#categories" class="btn btn-secondary" role="button">
+                        <span class="btn-text">My Library</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon-small">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEARCH SECTION -->
+        <section id="search" class="search-section" aria-label="Search and Filter">
+            <div class="search-bar-wrapper">
+                <div class="search-input-container">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon-inside" aria-hidden="true">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="search" class="search-box-input" placeholder="Search Anime..." aria-label="Search Anime Query">
+                </div>
+                <div class="search-actions">
+                    <button class="btn-icon btn-voice-search" id="voiceSearchBtn" aria-label="Voice Search">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon">
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                            <path d="M19 10v1a7 7 0 0 1-14 0v-1"></path>
+                            <line x1="12" y1="19" x2="12" y2="23"></line>
+                            <line x1="8" y1="23" x2="16" y2="23"></line>
+                        </svg>
+                    </button>
+                    <button class="btn-icon btn-filter" id="filterBtn" aria-label="Filter Options" aria-expanded="false">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon">
+                            <line x1="4" y1="21" x2="4" y2="14"></line>
+                            <line x1="4" y1="10" x2="4" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12" y2="3"></line>
+                            <line x1="20" y1="21" x2="20" y2="16"></line>
+                            <line x1="20" y1="12" x2="20" y2="3"></line>
+                            <line x1="1" y1="14" x2="7" y2="14"></line>
+                            <line x1="9" y1="8" x2="15" y2="8"></line>
+                            <line x1="17" y1="16" x2="23" y2="16"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- CATEGORY GRID -->
+        <section id="categories" class="category-section" aria-labelledby="categoryTitle">
+            <h2 id="categoryTitle" class="section-title">My Workspace Categories</h2>
+            <div class="category-grid">
+                
+                <!-- Card 1: Ongoing Anime -->
+                <article class="category-card" aria-labelledby="cat1-title">
+                    <div class="category-header">
+                        <div class="category-icon ongoing-accent" aria-hidden="true">📺</div>
+                        <h3 id="cat1-title" class="category-card-title">Ongoing Anime</h3>
+                    </div>
+                    <div class="category-body-empty">
+                        <p class="empty-state-text">No active items</p>
+                    </div>
+                </article>
+
+                <!-- Card 2: Waiting -->
+                <article class="category-card" aria-labelledby="cat2-title">
+                    <div class="category-header">
+                        <div class="category-icon waiting-accent" aria-hidden="true">⏳</div>
+                        <h3 id="cat2-title" class="category-card-title">Waiting</h3>
+                    </div>
+                    <div class="category-body-empty">
+                        <p class="empty-state-text">No pending releases</p>
+                    </div>
+                </article>
+
+                <!-- Card 3: Completed -->
+                <article class="category-card" aria-labelledby="cat3-title">
+                    <div class="category-header">
+                        <div class="category-icon completed-accent" aria-hidden="true">✅</div>
+                        <h3 id="cat3-title" class="category-card-title">Completed</h3>
+                    </div>
+                    <div class="category-body-empty">
+                        <p class="empty-state-text">No entries logged</p>
+                    </div>
+                </article>
+
+                <!-- Card 4: Dropped -->
+                <article class="category-card" aria-labelledby="cat4-title">
+                    <div class="category-header">
+                        <div class="category-icon dropped-accent" aria-hidden="true">❌</div>
+                        <h3 id="cat4-title" class="category-card-title">Dropped</h3>
+                    </div>
+                    <div class="category-body-empty">
+                        <p class="empty-state-text">No dropped shows</p>
+                    </div>
+                </article>
+
+                <!-- Card 5: Suggestions -->
+                <article class="category-card" aria-labelledby="cat5-title">
+                    <div class="category-header">
+                        <div class="category-icon suggestions-accent" aria-hidden="true">✨</div>
+                        <h3 id="cat5-title" class="category-card-title">Suggestions</h3>
+                    </div>
+                    <div class="category-body-empty">
+                        <p class="empty-state-text">No recommendations yet</p>
+                    </div>
+                </article>
+
+                <!-- Card 6: Anime Schedule -->
+                <article class="category-card" aria-labelledby="cat6-title">
+                    <div class="category-header">
+                        <div class="category-icon schedule-accent" aria-hidden="true">📅</div>
+                        <h3 id="cat6-title" class="category-card-title">Anime Schedule</h3>
+                    </div>
+                    <div class="category-body-empty">
+                        <p class="empty-state-text">Schedule empty</p>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- RECENT SECTION -->
+        <section class="recent-section" aria-labelledby="recentTitle">
+            <h2 id="recentTitle" class="section-title">Recently Added</h2>
+            <div class="recent-grid-empty" id="recentGrid">
+                <div class="empty-grid-state">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="empty-icon" aria-hidden="true">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="9" y1="9" x2="15" y2="9"></line>
+                        <line x1="9" y1="13" x2="15" y2="13"></line>
+                        <line x1="9" y1="17" x2="11" y2="17"></line>
+                    </svg>
+                    <p class="empty-grid-desc">Your workspace is fresh and clean. Add your very first anime note or tracker using the button below.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRENDING SECTION -->
+        <section class="trending-section" aria-labelledby="trendingTitle">
+            <h2 id="trendingTitle" class="section-title">Trending Anime</h2>
+            <div class="trending-grid" id="trendingGrid">
+                <!-- Loading Placeholder Cards (Skeletons) -->
+                <div class="skeleton-card" aria-hidden="true">
+                    <div class="skeleton-image"></div>
+                    <div class="skeleton-meta">
+                        <div class="skeleton-line title"></div>
+                        <div class="skeleton-line short"></div>
+                    </div>
+                </div>
+                <div class="skeleton-card" aria-hidden="true">
+                    <div class="skeleton-image"></div>
+                    <div class="skeleton-meta">
+                        <div class="skeleton-line title"></div>
+                        <div class="skeleton-line short"></div>
+                    </div>
+                </div>
+                <div class="skeleton-card" aria-hidden="true">
+                    <div class="skeleton-image"></div>
+                    <div class="skeleton-meta">
+                        <div class="skeleton-line title"></div>
+                        <div class="skeleton-line short"></div>
+                    </div>
+                </div>
+                <div class="skeleton-card" aria-hidden="true">
+                    <div class="skeleton-image"></div>
+                    <div class="skeleton-meta">
+                        <div class="skeleton-line title"></div>
+                        <div class="skeleton-line short"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- UPCOMING SECTION -->
+        <section class="upcoming-section" aria-labelledby="upcomingTitle">
+            <h2 id="upcomingTitle" class="section-title">Upcoming Anime</h2>
+            <div class="upcoming-grid" id="upcomingGrid">
+                <!-- Loading Skeletons -->
+                <div class="skeleton-row-item" aria-hidden="true">
+                    <div class="skeleton-thumb"></div>
+                    <div class="skeleton-row-details">
+                        <div class="skeleton-line title"></div>
+                        <div class="skeleton-line medium"></div>
+                    </div>
+                </div>
+                <div class="skeleton-row-item" aria-hidden="true">
+                    <div class="skeleton-thumb"></div>
+                    <div class="skeleton-row-details">
+                        <div class="skeleton-line title"></div>
+                        <div class="skeleton-line medium"></div>
+                    </div>
+                </div>
+                <div class="skeleton-row-item" aria-hidden="true">
+                    <div class="skeleton-thumb"></div>
+                    <div class="skeleton-row-details">
+                        <div class="skeleton-line title"></div>
+                        <div class="skeleton-line medium"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURED SECTION -->
+        <section class="featured-section" aria-labelledby="featuredTitle">
+            <h2 id="featuredTitle" class="section-title">Spotlight</h2>
+            <div class="featured-banner-wrapper">
+                <div class="featured-banner" id="featuredBanner">
+                    <div class="featured-glow-overlay" aria-hidden="true"></div>
+                    <div class="featured-content-placeholder">
+                        <div class="spotlight-badge">Spotlight Series</div>
+                        <div class="spotlight-skeleton-title"></div>
+                        <div class="spotlight-skeleton-desc"></div>
+                        <div class="spotlight-skeleton-btn"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STATISTICS SECTION -->
+        <section class="statistics-section" aria-labelledby="statsTitle">
+            <h2 id="statsTitle" class="section-title">Workspace Performance</h2>
+            <div class="stats-grid">
+                
+                <div class="stats-card">
+                    <div class="stats-label">Watching</div>
+                    <div class="stats-number" id="statsWatching">0</div>
+                    <div class="stats-visual-bar bar-watching" aria-hidden="true"></div>
+                </div>
+
+                <div class="stats-card">
+                    <div class="stats-label">Completed</div>
+                    <div class="stats-number" id="statsCompleted">0</div>
+                    <div class="stats-visual-bar bar-completed" aria-hidden="true"></div>
+                </div>
+
+                <div class="stats-card">
+                    <div class="stats-label">Dropped</div>
+                    <div class="stats-number" id="statsDropped">0</div>
+                    <div class="stats-visual-bar bar-dropped" aria-hidden="true"></div>
+                </div>
+
+                <div class="stats-card">
+                    <div class="stats-label">Favorites</div>
+                    <div class="stats-number" id="statsFavorites">0</div>
+                    <div class="stats-visual-bar bar-favorites" aria-hidden="true"></div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer-premium">
+        <div class="footer-container">
+            <div class="footer-brand-side">
+                <div class="footer-logo">Anime<span class="logo-dot">.</span>Keep</div>
+                <p class="footer-tagline">Track • Organize • Discover • Watch • Connect</p>
+                <div class="footer-meta-info">
+                    <span class="badge-version">v1.0</span>
+                    <span class="copyright-text">© 2026 Anime.Keep. All rights reserved.</span>
+                </div>
+            </div>
+            <nav class="footer-nav-side" aria-label="Footer Navigation">
+                <div class="footer-nav-group">
+                    <h4 class="footer-group-title">Navigation</h4>
+                    <ul>
+                        <li><a href="#" class="footer-link">Home</a></li>
+                        <li><a href="#search" class="footer-link">Discover</a></li>
+                        <li><a hre
