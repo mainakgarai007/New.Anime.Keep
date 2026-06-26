@@ -1,0 +1,379 @@
+```css
+/* ================================================================================
+   ANIME.KEEP - ANIME RELEASE SCHEDULE STYLES (MG STYLE)
+   Architect: Senior CSS Architect
+   Inspirations: AniList, Google Keep, Discord
+================================================================================
+*/
+
+/* --- 1. DESIGN SYSTEM & VARIABLE TOKENS --- */
+:root {
+  /* Colors */
+  --bg-amoled: #020205;
+  --bg-dark-900: #07070e;
+  --bg-dark-800: #0c0c16;
+  --bg-dark-700: #121225;
+  --bg-glass: rgba(10, 10, 18, 0.45);
+  --bg-glass-hover: rgba(20, 20, 35, 0.7);
+  
+  --brand-blue: #3b82f6;
+  --brand-purple: #a855f7;
+  --brand-cyan: #06b6d4;
+  --brand-amber: #f59e0b;
+  --brand-emerald: #10b981;
+  
+  /* Semi-transparent accents */
+  --glow-blue: rgba(59, 130, 246, 0.25);
+  --glow-purple: rgba(168, 85, 247, 0.2);
+  --glow-cyan: rgba(6, 182, 212, 0.3);
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --border-glass-active: rgba(59, 130, 246, 0.4);
+
+  /* Fonts & Text */
+  --font-primary: 'Inter', system-ui, -apple-system, sans-serif;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+
+  /* Elevations, Blur & Transitions */
+  --blur-amount: 16px;
+  --radius-xl: 18px;
+  --radius-lg: 12px;
+  --radius-md: 8px;
+  --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: all 0.2s ease;
+}
+
+/* --- 2. GLOBAL RESET & CORE LAYOUTS --- */
+body {
+  background-color: var(--bg-amoled);
+  color: var(--text-primary);
+  font-family: var(--font-primary);
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar Styling (Discord Inspired) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-amoled);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-dark-700);
+  border-radius: 999px;
+  border: 2px solid var(--bg-amoled);
+  transition: var(--transition-fast);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-blue);
+}
+
+/* --- 3. PREMIUM GLASSMORPHISM COMPONENTS --- */
+.glass-panel {
+  background: var(--bg-glass);
+  backdrop-filter: blur(var(--blur-amount));
+  -webkit-backdrop-filter: blur(var(--blur-amount));
+  border: 1px solid var(--border-glass);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.glass-card {
+  background: rgba(15, 15, 27, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-xl);
+  transition: var(--transition-smooth);
+}
+
+/* Highlighted Interactive States */
+.glass-card:hover {
+  transform: translateY(-5px);
+  background: var(--bg-glass-hover);
+  border-color: var(--border-glass-active);
+  box-shadow: 0 12px 40px -10px var(--glow-blue),
+              0 0 20px -5px var(--glow-purple);
+}
+
+/* --- 4. ANIMATIONS & DYNAMIC GLOW STATES --- */
+@keyframes pulseGlowBlue {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.35);
+  }
+}
+
+@keyframes pulseGlowPurple {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.3);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Animations Helper Classes */
+.animate-glow-blue {
+  animation: pulseGlowBlue 3s infinite ease-in-out;
+}
+
+.animate-glow-purple {
+  animation: pulseGlowPurple 3.5s infinite ease-in-out;
+}
+
+.animate-float {
+  animation: float 6s infinite ease-in-out;
+}
+
+.animate-slide-up {
+  animation: slideInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* --- 5. STICKY HEADER & NAVBAR --- */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  transition: var(--transition-smooth);
+}
+
+header.scrolled {
+  background: rgba(4, 4, 10, 0.85);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* --- 6. PREMIUM INTERACTIVE BUTTONS --- */
+.btn-premium {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-premium::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-25deg);
+  transition: 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-premium:hover::after {
+  left: 125%;
+}
+
+/* --- 7. SEARCH & ADVANCED FILTERS BAR --- */
+#search-filter-section {
+  border-bottom: 1px solid var(--border-glass);
+}
+
+/* Inputs and Select Elements Styling */
+input[type="text"],
+select {
+  background: rgba(4, 4, 10, 0.6);
+  border: 1px solid var(--border-glass);
+  color: var(--text-primary);
+  transition: var(--transition-smooth);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+input[type="text"]:focus,
+select:focus {
+  border-color: var(--brand-blue);
+  box-shadow: 0 0 15px var(--glow-blue), inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  outline: none;
+}
+
+/* --- 8. LANGUAGE & MULTI-AUDIO FILTER TABS --- */
+.lang-tab-btn {
+  transition: var(--transition-smooth);
+  position: relative;
+}
+
+.lang-tab-btn.active {
+  background: var(--glow-blue);
+  color: var(--brand-blue);
+  border-color: var(--border-glass-active);
+  box-shadow: 0 0 12px var(--glow-blue);
+}
+
+/* --- 9. THE ANIME RELEASE CARDS GRID --- */
+#anime-cards-grid {
+  perspective: 1000px;
+}
+
+/* Card Content Alignments & Overlay Layouts */
+.anime-card-poster-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+
+.anime-card-poster-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(2, 2, 5, 0.95) 0%, rgba(2, 2, 5, 0) 60%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* --- 10. REAL-TIME COUNTDOWN STYLING --- */
+.countdown-timer {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  background: linear-gradient(135deg, var(--brand-cyan), var(--brand-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 8px rgba(6, 182, 212, 0.1);
+}
+
+/* --- 11. SHIMMERING SKELETON LOADERS --- */
+.shimmer-bg {
+  background: linear-gradient(
+    90deg,
+    var(--bg-dark-800) 25%,
+    var(--bg-dark-700) 50%,
+    var(--bg-dark-800) 75*
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+
+/* --- 12. DRAWERS & SYSTEM MODALS --- */
+#details-modal,
+#settings-modal {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: var(--transition-smooth);
+}
+
+/* --- 13. RESPONSIVE MEDIA QUERIES (BREAKPOINTS) --- */
+
+/* Mobile Native Devices (Default is mobile-first) */
+@media (max-width: 639px) {
+  #anime-cards-grid {
+    grid-template-cols: 1fr;
+    gap: 16px;
+  }
+  
+  .glass-card {
+    height: auto;
+    min-height: 380px;
+  }
+
+  #details-modal .glass-panel {
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+/* Tablet Layout Modifications */
+@media (min-width: 640px) and (max-width: 1023px) {
+  #anime-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .glass-card {
+    height: 400px;
+  }
+}
+
+/* Desktop Premium Layout Adjustments */
+@media (min-width: 1024px) {
+  #anime-cards-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  @media (min-width: 1280px) {
+    #anime-cards-grid {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+
+  .glass-card {
+    height: 410px;
+  }
+}
+
+/* --- 14. ACCESSIBILITY & PREFERRED ACTIONS --- */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-delay: 0s !important;
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0s !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .glass-card:hover {
+    transform: none;
+  }
+}
+
+```
+  
