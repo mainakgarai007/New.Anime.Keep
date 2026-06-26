@@ -1,0 +1,401 @@
+```html
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anime.Keep - User Profile</title>
+
+  <!-- External Stylesheets (Fallbacks) -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="app.css">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts (Inter) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            amoled: '#020205',
+            glass: 'rgba(10, 10, 18, 0.45)',
+            'glass-border': 'rgba(255, 255, 255, 0.08)',
+            'glow-blue': 'rgba(59, 130, 246, 0.15)',
+            'glow-purple': 'rgba(147, 51, 234, 0.15)',
+            brand: {
+              blue: '#3b82f6',
+              purple: '#a855f7',
+              cyan: '#06b6d4',
+              pink: '#ec4899',
+              amber: '#f59e0b'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom AMOLED Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #020205;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #121026;
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3b82f6;
+    }
+
+    /* Ambient Glow Rings */
+    .glow-radial-blue {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, rgba(0, 0, 0, 0) 70%);
+      top: -100px;
+      left: -200px;
+      z-index: 0;
+      pointer-events: none;
+      filter: blur(40px);
+    }
+
+    .glow-radial-purple {
+      position: absolute;
+      width: 550px;
+      height: 550px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+      bottom: 15%;
+      right: -250px;
+      z-index: 0;
+      pointer-events: none;
+      filter: blur(50px);
+    }
+
+    /* Glassmorphism Classes */
+    .glass-panel {
+      background: rgba(10, 10, 18, 0.55);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .glass-card {
+      background: rgba(15, 15, 27, 0.45);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .glass-card:hover {
+      transform: translateY(-4px);
+      background: rgba(20, 20, 35, 0.7);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 12px 40px -10px rgba(59, 130, 246, 0.25);
+    }
+
+    /* Shimmer keyframes */
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .shimmer-bg {
+      background: linear-gradient(90deg, #090912 25%, #18182b 50%, #090912 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.6s infinite linear;
+    }
+  </style>
+</head>
+<body class="bg-amoled text-slate-100 min-h-screen font-sans relative overflow-x-hidden selection:bg-brand-blue/30 selection:text-white">
+
+  <!-- Ambient Backdrop Glows -->
+  <div class="glow-radial-blue"></div>
+  <div class="glow-radial-purple"></div>
+
+  <!-- Global Application Wrapper -->
+  <div class="relative z-10 flex flex-col min-h-screen">
+
+    <!-- STICKY HEADER NAVIGATION -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-white/5 shadow-lg">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
+        
+        <!-- Left: Logo & Back Button -->
+        <div class="flex items-center gap-3 sm:gap-4">
+          <button onclick="window.history.back()" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center hover:bg-white/10 active:scale-95 transition-all text-slate-300" title="Go Back">
+            <i class="fa-solid fa-arrow-left text-sm sm:text-base"></i>
+          </button>
+          
+          <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='schedule.html'">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-blue to-brand-purple flex items-center justify-center shadow-lg shadow-brand-blue/30">
+              <i class="fa-solid fa-bolt text-white text-sm"></i>
+            </div>
+            <span class="font-extrabold text-lg sm:text-xl tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent">
+              Anime.<span class="bg-gradient-to-r from-brand-blue to-brand-cyan bg-clip-text text-transparent">Keep</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Right: Control actions -->
+        <div class="flex items-center gap-2">
+          <button id="share-profile-btn" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center hover:bg-white/10 active:scale-95 transition-all text-slate-300" title="Copy Profile Link">
+            <i class="fa-solid fa-share-nodes"></i>
+          </button>
+          <button onclick="window.location.href='schedule.html'" class="px-4 h-10 rounded-xl bg-brand-blue hover:bg-blue-600 text-white font-semibold text-xs transition-all active:scale-95 shadow-md shadow-brand-blue/20 flex items-center gap-1.5">
+            <i class="fa-solid fa-calendar"></i>
+            <span class="hidden sm:inline">Back to Schedule</span>
+          </button>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- MAIN SCOPE PROFILE BODY -->
+    <main class="flex-grow w-full pb-12">
+      
+      <!-- HERO AREA: PROFILE BANNER & USER HEADER INFO -->
+      <section class="relative w-full h-[25vh] sm:h-[32vh] overflow-hidden">
+        <div id="user-banner" class="absolute inset-0 bg-cover bg-center filter brightness-75" style="background-image: url('https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=1200&auto=format&fit=crop');"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-amoled via-amoled/50 to-transparent"></div>
+      </section>
+
+      <!-- FLOAT CARD PROFILE DETAILS -->
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative -mt-16 sm:-mt-24 z-20">
+        <div class="flex flex-col sm:flex-row gap-6 items-center sm:items-end text-center sm:text-left">
+          
+          <!-- Avatar Frame -->
+          <div class="w-28 sm:w-36 md:w-40 aspect-square rounded-2xl overflow-hidden shrink-0 shadow-2xl border-2 border-white/10 relative group bg-slate-900">
+            <img id="user-avatar" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=300&auto=format&fit=crop" alt="User Avatar">
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all cursor-pointer" onclick="openProfileEditModal()">
+              <i class="fa-solid fa-camera text-white text-lg"></i>
+            </div>
+          </div>
+
+          <!-- Quick Text Summary & Buttons -->
+          <div class="flex-grow flex flex-col sm:flex-row items-center sm:items-end justify-between gap-4 pb-2 w-full">
+            <div>
+              <div class="flex items-center justify-center sm:justify-start gap-2">
+                <h1 id="user-display-name" class="text-xl sm:text-3xl font-black text-white leading-tight">OtakuKeep_99</h1>
+                <span id="user-rank-tag" class="px-2 py-0.5 rounded-full text-[9px] font-extrabold tracking-wider bg-brand-purple/20 text-brand-purple border border-brand-purple/30 uppercase">Senior Critic</span>
+              </div>
+              <p id="user-handle" class="text-xs sm:text-sm text-slate-500 font-semibold tracking-wide mt-0.5">@ren_kurosawa</p>
+              <p id="user-bio" class="text-xs sm:text-sm text-slate-300 mt-2.5 max-w-xl leading-relaxed line-clamp-2">
+                Always searching for high-quality animation, robust worldbuilding, and complex logic systems. Frieren & Re:Zero enthusiast.
+              </p>
+            </div>
+            <button onclick="openProfileEditModal()" class="px-5 py-2.5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white font-bold text-xs transition-all active:scale-95 flex items-center gap-2 shrink-0 shadow-md">
+              <i class="fa-solid fa-pen-to-square"></i>
+              <span>Customize Profile</span>
+            </button>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- METRIC CHIPS STRIP (Core Numerical Stats Grid) -->
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          
+          <!-- Metric Item -->
+          <div class="glass-card rounded-2xl p-4 flex flex-col justify-between items-center text-center">
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Total Anime</span>
+            <span id="stat-total" class="text-2xl font-black text-white mt-1">284</span>
+            <span class="text-[10px] text-brand-blue font-semibold mt-1">Registered entries</span>
+          </div>
+
+          <!-- Metric Item -->
+          <div class="glass-card rounded-2xl p-4 flex flex-col justify-between items-center text-center">
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Watching</span>
+            <span id="stat-watching" class="text-2xl font-black text-brand-cyan mt-1">12</span>
+            <span class="text-[10px] text-brand-cyan/60 font-semibold mt-1">Active series</span>
+          </div>
+
+          <!-- Metric Item -->
+          <div class="glass-card rounded-2xl p-4 flex flex-col justify-between items-center text-center">
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Completed</span>
+            <span id="stat-completed" class="text-2xl font-black text-emerald-400 mt-1">198</span>
+            <span class="text-[10px] text-emerald-500/60 font-semibold mt-1">Archive logs</span>
+          </div>
+
+          <!-- Metric Item -->
+          <div class="glass-card rounded-2xl p-4 flex flex-col justify-between items-center text-center">
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Dropped</span>
+            <span id="stat-dropped" class="text-2xl font-black text-rose-500 mt-1">10</span>
+            <span class="text-[10px] text-rose-500/60 font-semibold mt-1">Abandoned projects</span>
+          </div>
+
+          <!-- Metric Item -->
+          <div class="glass-card rounded-2xl p-4 flex flex-col justify-between items-center text-center">
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Plan To Watch</span>
+            <span id="stat-ptw" class="text-2xl font-black text-brand-purple mt-1">64</span>
+            <span class="text-[10px] text-brand-purple/60 font-semibold mt-1">Watch backlog</span>
+          </div>
+
+          <!-- Metric Item -->
+          <div class="glass-card rounded-2xl p-4 flex flex-col justify-between items-center text-center">
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Watch Time</span>
+            <span id="stat-watchtime" class="text-2xl font-black text-amber-400 mt-1">1,094h</span>
+            <span class="text-[10px] text-amber-500/60 font-semibold mt-1">~45.6 days</span>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- TWO-COLUMN DETAILED PROFILE BODY WORKSPACE -->
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          <!-- LEFT RAIL: Favorite specifics & Configurations -->
+          <div class="lg:col-span-4 flex flex-col gap-6">
+            
+            <!-- Favorite Categories & Specifications card -->
+            <div class="glass-panel rounded-2xl p-6 border border-white/5 flex flex-col gap-5">
+              <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 border-b border-white/5 pb-2">Favorite Demographics</h3>
+              
+              <div class="flex flex-col gap-4 text-xs">
+                <!-- Genre stats metric bar -->
+                <div>
+                  <div class="flex justify-between font-bold text-slate-300 mb-1.5">
+                    <span>Fantasy / Adventure</span>
+                    <span>42%</span>
+                  </div>
+                  <div class="w-full h-2 rounded bg-slate-900 overflow-hidden">
+                    <div class="h-full bg-brand-blue rounded" style="width: 42%;"></div>
+                  </div>
+                </div>
+
+                <!-- Genre stats metric bar -->
+                <div>
+                  <div class="flex justify-between font-bold text-slate-300 mb-1.5">
+                    <span>Action / Shonen</span>
+                    <span>28%</span>
+                  </div>
+                  <div class="w-full h-2 rounded bg-slate-900 overflow-hidden">
+                    <div class="h-full bg-brand-purple rounded" style="width: 28%;"></div>
+                  </div>
+                </div>
+
+                <!-- Genre stats metric bar -->
+                <div>
+                  <div class="flex justify-between font-bold text-slate-300 mb-1.5">
+                    <span>Sci-Fi / Mecha</span>
+                    <span>18%</span>
+                  </div>
+                  <div class="w-full h-2 rounded bg-slate-900 overflow-hidden">
+                    <div class="h-full bg-brand-pink rounded" style="width: 18%;"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- List of favorite studios/characters -->
+              <div class="flex flex-col gap-3.5 pt-3 border-t border-white/5 text-sm">
+                <div class="flex justify-between">
+                  <span class="text-slate-400 font-semibold">Fav Studio</span>
+                  <span class="font-bold text-slate-200">Madhouse / Wit</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-slate-400 font-semibold">Fav Character</span>
+                  <span class="font-bold text-slate-200">Frieren</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-slate-400 font-semibold">Fav Voice Actor</span>
+                  <span class="font-bold text-slate-200">Atsumi Tanezaki</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Achievements & Badge metrics card -->
+            <div class="glass-panel rounded-2xl p-6 border border-white/5 flex flex-col gap-4">
+              <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 border-b border-white/5 pb-2">Collector Milestones</h3>
+              
+              <div class="grid grid-cols-4 gap-3">
+                <!-- Badge Badge -->
+                <div class="aspect-square rounded-xl bg-gradient-to-br from-amber-500/10 to-amber-500/20 border border-amber-500/30 flex flex-col items-center justify-center text-amber-400 hover:scale-105 transition-transform" title="Sovereign Marathoner (Completed 100+ Series)">
+                  <i class="fa-solid fa-crown text-xl"></i>
+                </div>
+                <!-- Badge Badge -->
+                <div class="aspect-square rounded-xl bg-gradient-to-br from-brand-blue/10 to-brand-blue/20 border border-brand-blue/30 flex flex-col items-center justify-center text-brand-blue hover:scale-105 transition-transform" title="Database Sentinel (Provided 10+ reviews)">
+                  <i class="fa-solid fa-feather text-xl"></i>
+                </div>
+                <!-- Badge Badge -->
+                <div class="aspect-square rounded-xl bg-gradient-to-br from-emerald-500/10 to-emerald-500/20 border border-emerald-500/30 flex flex-col items-center justify-center text-emerald-400 hover:scale-105 transition-transform" title="Season Ticket (Watched airing lists for 5 consecutive years)">
+                  <i class="fa-solid fa-calendar-check text-xl"></i>
+                </div>
+                <!-- Badge Badge -->
+                <div class="aspect-square rounded-xl bg-gradient-to-br from-slate-800 to-slate-700/50 border border-white/5 flex flex-col items-center justify-center text-slate-500 opacity-60" title="Locked Badge: Complete 10 Retro series">
+                  <i class="fa-solid fa-lock text-base"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Settings Panel -->
+            <div class="glass-panel rounded-2xl p-6 border border-white/5 flex flex-col gap-4">
+              <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 border-b border-white/5 pb-2">Profile Actions</h3>
+              
+              <div class="flex flex-col gap-2.5">
+                <button onclick="resetMockData()" class="w-full py-2.5 rounded-xl bg-red-950/20 hover:bg-red-950/40 border border-red-500/10 hover:border-red-500/20 text-red-500 text-xs font-bold transition-all active:scale-95 flex items-center justify-center gap-2">
+                  <i class="fa-solid fa-trash-can"></i>
+                  <span>Reset Mock Preferences</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- RIGHT RAIL: Continue Watching, Activity Log, Custom Watchlists -->
+          <div class="lg:col-span-8 flex flex-col gap-8">
+            
+            <!-- Dynamic CONTINUE WATCHING panel deck -->
+            <div class="flex flex-col gap-4">
+              <h3 class="text-base font-black text-white flex items-center gap-2">
+                <i class="fa-solid fa-play text-brand-blue"></i>
+                <span>Continue Watching Deck</span>
+              </h3>
+              
+              <div id="continue-watching-deck" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- dynamic watching cards injected here -->
+              </div>
+            </div>
+
+            <!-- Recent Activity Timeline Log -->
+            <div class="glass-panel rounded-2xl p-6 sm:p-8 border border-white/5 flex flex-col gap-5">
+              <h3 class="text-base font-black text-white flex items-center gap-2 border-b border-white/5 pb-4">
+                <i class="fa-solid fa-wave-square text-brand-pink"></i>
+                <span>Recent Activity Log</span>
+              </h3>
+
+              <div id="activity-timeline" class="flex flex-col gap-4 relative pl-5 border-l border-white/10">
+                <!-- dynamic activity logs lists -->
+              </div>
+            </div>
+
+            <!-- Complete Watchlist Collection table view -->
+            <div class="glass-panel rounded-2xl p-6 border border-white/5 flex flex-col gap-5 overflow-hidden">
+              <h3 class="text-base font-black text-white flex items-center justify-between border-b border-white/5 pb-4">
+                <span class="flex items-center gap-2">
+                  <i class="fa-solid fa-folder-open text-brand-amber"></i>
+                  <span>Watchlists Database Catalog</span>
+                </span>
+                <span id="watchlist-total-lbl" class="text-xs bg-brand-amber/20 text-brand-amber px-2.5 py-0.5 rounded-full font-extrabold">3 Items</span>
+              </h3>
+
+              <div class="overflow-x-auto w-full">
+                <table class="w-full text-left text-xs sm:text-sm">
+                  <thead>
+  
