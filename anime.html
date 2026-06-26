@@ -1,0 +1,411 @@
+```html
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anime.Keep - Detailed Information</title>
+
+  <!-- External Stylesheets (Pre-configured Fallbacks) -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="app.css">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Free Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts (Inter) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            amoled: '#020205',
+            glass: 'rgba(10, 10, 18, 0.45)',
+            'glass-border': 'rgba(255, 255, 255, 0.08)',
+            'glow-blue': 'rgba(59, 130, 246, 0.15)',
+            'glow-purple': 'rgba(147, 51, 234, 0.15)',
+            brand: {
+              blue: '#3b82f6',
+              purple: '#a855f7',
+              cyan: '#06b6d4',
+              pink: '#ec4899'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Premium Custom Scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #020205;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e1b4b;
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3b82f6;
+    }
+
+    /* Ambient Glow Rings */
+    .glow-radial-blue {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+      top: -100px;
+      left: -200px;
+      z-index: 0;
+      pointer-events: none;
+      filter: blur(50px);
+    }
+
+    .glow-radial-purple {
+      position: absolute;
+      width: 650px;
+      height: 650px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, rgba(0, 0, 0, 0) 70%);
+      top: 30%;
+      right: -200px;
+      z-index: 0;
+      pointer-events: none;
+      filter: blur(60px);
+    }
+
+    /* Glassmorphism Classes */
+    .glass-panel {
+      background: rgba(10, 10, 18, 0.55);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .glass-card {
+      background: rgba(15, 15, 27, 0.45);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .glass-card:hover {
+      background: rgba(20, 20, 35, 0.7);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 12px 40px -10px rgba(59, 130, 246, 0.25);
+    }
+
+    /* Dynamic Shimmer Keyframes */
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .shimmer-bg {
+      background: linear-gradient(90deg, #090912 25%, #18182b 50%, #090912 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.6s infinite linear;
+    }
+
+    /* Soft Blur Vignettes for Large Banners */
+    .banner-gradient {
+      background: linear-gradient(to top, #020205 0%, rgba(2, 2, 5, 0.6) 40%, rgba(2, 2, 5, 0.2) 80%, rgba(2, 2, 5, 0.8) 100%);
+    }
+  </style>
+</head>
+<body class="bg-amoled text-slate-100 min-h-screen font-sans relative overflow-x-hidden selection:bg-brand-blue/30 selection:text-white">
+
+  <!-- Ambient Backdrop Glow Shapes -->
+  <div class="glow-radial-blue"></div>
+  <div class="glow-radial-purple"></div>
+
+  <!-- Global Scaffold Container -->
+  <div class="relative z-10 flex flex-col min-h-screen">
+
+    <!-- STICKY TOP NAVIGATION BAR -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-white/5 shadow-lg">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
+        
+        <!-- Left Section: Navigation and Brand -->
+        <div class="flex items-center gap-3 sm:gap-4">
+          <button onclick="window.history.back()" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center hover:bg-white/10 active:scale-95 transition-all text-slate-300" title="Go Back">
+            <i class="fa-solid fa-arrow-left text-sm sm:text-base"></i>
+          </button>
+          
+          <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='schedule.html'">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-blue to-brand-purple flex items-center justify-center shadow-lg shadow-brand-blue/30">
+              <i class="fa-solid fa-bolt text-white text-sm"></i>
+            </div>
+            <span class="font-extrabold text-lg sm:text-xl tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent">
+              Anime.<span class="bg-gradient-to-r from-brand-blue to-brand-cyan bg-clip-text text-transparent">Keep</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Right Section: Action Elements -->
+        <div class="flex items-center gap-2">
+          <!-- Copy / Share Link button -->
+          <button id="share-btn" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center hover:bg-white/10 active:scale-95 transition-all text-slate-300" title="Copy Reference URL">
+            <i class="fa-solid fa-share-nodes"></i>
+          </button>
+
+          <!-- Toggle Bookmark alert notifications button -->
+          <button id="favorite-btn" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center hover:bg-white/10 active:scale-95 transition-all text-slate-400" title="Add to Alerts">
+            <i class="fa-regular fa-star"></i>
+          </button>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- LOADING SHIMMERING GLASS PLACEHOLDER -->
+    <div id="details-shimmer" class="w-full h-screen relative shrink-0">
+      <div class="w-full h-[40vh] shimmer-bg"></div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative -mt-32 z-10">
+        <div class="flex flex-col md:flex-row gap-8 items-start">
+          <div class="w-48 sm:w-64 aspect-[3/4] rounded-2xl shrink-0 shimmer-bg shadow-2xl"></div>
+          <div class="flex-grow w-full flex flex-col gap-4 mt-16 md:mt-24">
+            <div class="h-10 shimmer-bg rounded-lg w-2/3"></div>
+            <div class="h-6 shimmer-bg rounded-md w-1/3"></div>
+            <div class="flex gap-2 mt-4">
+              <div class="h-8 w-24 rounded-full shimmer-bg"></div>
+              <div class="h-8 w-24 rounded-full shimmer-bg"></div>
+              <div class="h-8 w-24 rounded-full shimmer-bg"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN HERO & DETAILED PROFILE GRID (Dynamically Hydrated) -->
+    <main id="details-content-view" class="hidden flex-grow w-full relative">
+      
+      <!-- GIANT HEADER COVER BANNER WITH VIGNETTE SHADOWS -->
+      <section class="relative w-full h-[35vh] sm:h-[45vh] md:h-[50vh] overflow-hidden">
+        <div id="anime-banner" class="absolute inset-0 bg-cover bg-center filter brightness-90"></div>
+        <div class="absolute inset-0 banner-gradient"></div>
+      </section>
+
+      <!-- FLOATING HEADER METADATA BLOCK -->
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative -mt-24 sm:-mt-36 md:-mt-48 z-20">
+        <div class="flex flex-col md:flex-row gap-6 md:gap-8 items-center md:items-end text-center md:text-left">
+          
+          <!-- Floating Main Poster Frame -->
+          <div class="w-44 sm:w-56 md:w-64 aspect-[3/4] rounded-2xl overflow-hidden shrink-0 shadow-2xl border-2 border-white/10 glass-panel">
+            <img id="anime-poster" class="w-full h-full object-cover" src="" alt="Poster">
+          </div>
+
+          <!-- Basic Title and Type Meta Grid -->
+          <div class="flex-grow flex flex-col justify-end gap-1.5 md:pb-4">
+            <div class="flex flex-wrap items-center justify-center md:justify-start gap-2.5">
+              <span id="anime-type" class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold tracking-widest bg-brand-blue/20 text-brand-blue uppercase border border-brand-blue/30">TV Series</span>
+              <span id="anime-season-year" class="text-xs text-slate-300 font-bold">Fall 2023</span>
+              <span id="anime-status-badge" class="px-2 py-0.5 rounded-lg text-[9px] font-bold tracking-tight bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Finished Airing</span>
+            </div>
+            
+            <h1 id="anime-title" class="text-2xl sm:text-3xl md:text-5xl font-black text-white leading-tight">Loading Title...</h1>
+            <h2 id="anime-title-japanese" class="text-sm sm:text-base font-semibold text-slate-400 tracking-wide font-sans mt-0.5">日本語タイトル</h2>
+            <p id="anime-title-synonyms" class="text-xs text-slate-500 font-medium italic mt-1 max-w-2xl line-clamp-1">Alternative titles lists...</p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- MAIN MULTI-COLUMN DATA AND BODY GRID -->
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 relative z-20">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          <!-- LEFT SIDEBAR: Detailed Analytical Indexes -->
+          <div class="lg:col-span-4 flex flex-col gap-6">
+            
+            <!-- Statistical Ranking Index Card -->
+            <div class="glass-panel rounded-2xl p-6 border border-white/5 flex flex-col gap-4">
+              <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 border-b border-white/5 pb-2">Statistical Index</h3>
+              
+              <div class="grid grid-cols-3 gap-3 text-center">
+                <div class="p-2.5 rounded-xl bg-white/5 border border-white/5">
+                  <span class="block text-[10px] font-bold text-slate-500 uppercase tracking-tight">Score</span>
+                  <span id="anime-score" class="text-lg font-black text-amber-400 mt-1 block">9.38</span>
+                </div>
+                <div class="p-2.5 rounded-xl bg-white/5 border border-white/5">
+                  <span class="block text-[10px] font-bold text-slate-500 uppercase tracking-tight">Rank</span>
+                  <span id="anime-rank" class="text-lg font-black text-brand-purple mt-1 block">#1</span>
+                </div>
+                <div class="p-2.5 rounded-xl bg-white/5 border border-white/5">
+                  <span class="block text-[10px] font-bold text-slate-500 uppercase tracking-tight">Popularity</span>
+                  <span id="anime-popularity" class="text-lg font-black text-brand-cyan mt-1 block">#245</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Detailed Production and Broadcast Metadata Sidebar -->
+            <div class="glass-panel rounded-2xl p-6 border border-white/5 flex flex-col gap-4">
+              <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 border-b border-white/5 pb-2">Production & Data</h3>
+              
+              <div class="flex flex-col gap-3.5 text-sm">
+                <div class="flex justify-between border-b border-white/5 pb-2">
+                  <span class="text-slate-400 font-semibold"><i class="fa-solid fa-clapperboard text-xs mr-2 text-slate-500"></i>Studios</span>
+                  <span id="anime-studios" class="font-bold text-white text-right">Madhouse</span>
+                </div>
+                <div class="flex justify-between border-b border-white/5 pb-2">
+                  <span class="text-slate-400 font-semibold"><i class="fa-solid fa-list-ol text-xs mr-2 text-slate-500"></i>Total Episodes</span>
+                  <span id="anime-episodes" class="font-bold text-white">28 Episodes</span>
+                </div>
+                <div class="flex justify-between border-b border-white/5 pb-2">
+                  <span class="text-slate-400 font-semibold"><i class="fa-solid fa-hourglass-half text-xs mr-2 text-slate-500"></i>Duration</span>
+                  <span id="anime-duration" class="font-bold text-white">24 min per ep</span>
+                </div>
+                <div class="flex justify-between border-b border-white/5 pb-2">
+                  <span class="text-slate-400 font-semibold"><i class="fa-solid fa-tv text-xs mr-2 text-slate-500"></i>Broadcast Schedule</span>
+                  <span id="anime-broadcast" class="font-bold text-slate-300 text-right">Fridays at 23:00 (JST)</span>
+                </div>
+                <div class="flex justify-between border-b border-white/5 pb-2">
+                  <span class="text-slate-400 font-semibold"><i class="fa-solid fa-shield-halved text-xs mr-2 text-slate-500"></i>Rating Class</span>
+                  <span id="anime-rating" class="font-bold text-slate-300 text-right">PG-13 - Teens 13 or older</span>
+                </div>
+                <div class="flex flex-col gap-1">
+                  <span class="text-slate-400 font-semibold mb-1"><i class="fa-solid fa-building-columns text-xs mr-2 text-slate-500"></i>Producers List</span>
+                  <p id="anime-producers" class="text-xs text-slate-300 leading-relaxed font-medium">Aniplex, Dentsu, Shogakukan-Shueisha Productions</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Official Streaming Platforms Links Panel -->
+            <div class="glass-panel rounded-2xl p-6 border border-white/5 flex flex-col gap-4">
+              <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 border-b border-white/5 pb-2">Official Broadcasters</h3>
+              
+              <div id="streaming-container" class="flex flex-col gap-2">
+                <!-- Dynamically Hydrated streaming buttons -->
+                <a href="#" class="flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-brand-blue/15 hover:border-brand-blue/40 border border-white/5 transition-all text-xs font-bold text-slate-300 hover:text-white">
+                  <span>Crunchyroll</span>
+                  <i class="fa-solid fa-circle-play text-brand-blue"></i>
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- RIGHT MAIN WINDOW: Context Panels -->
+          <div class="lg:col-span-8 flex flex-col gap-8">
+            
+            <!-- Genres and Theme Tags Panel -->
+            <div class="flex flex-wrap gap-2.5">
+              <div id="anime-genres" class="flex flex-wrap gap-2">
+                <!-- genres badges -->
+              </div>
+              <div id="anime-themes" class="flex flex-wrap gap-2">
+                <!-- themes badges -->
+              </div>
+              <div id="anime-demographics" class="flex flex-wrap gap-2">
+                <!-- demographics badges -->
+              </div>
+            </div>
+
+            <!-- Synopsis Detailed Read Panel -->
+            <div class="glass-panel rounded-2xl p-6 sm:p-8 border border-white/5">
+              <h3 class="text-base font-black text-white mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-book-open text-brand-blue"></i>
+                <span>Synopsis Background</span>
+              </h3>
+              <p id="anime-synopsis" class="text-sm sm:text-base text-slate-300 leading-relaxed text-justify">
+                Loading detailed information...
+              </p>
+            </div>
+
+            <!-- Dynamic Interactive Trailers Screen Container -->
+            <div id="trailer-section" class="glass-panel rounded-2xl p-6 sm:p-8 border border-white/5">
+              <h3 class="text-base font-black text-white mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-film text-brand-purple"></i>
+                <span>Official Promotional Video</span>
+              </h3>
+              <div class="w-full aspect-video rounded-xl overflow-hidden bg-slate-950 border border-white/10 shadow-lg relative">
+                <div id="trailer-container" class="w-full h-full">
+                  <!-- Video Embed Hydrated Here -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Primary Characters and Voice Actors Section Grid -->
+            <div class="flex flex-col gap-4">
+              <h3 class="text-base font-black text-white flex items-center gap-2">
+                <i class="fa-solid fa-users text-brand-cyan"></i>
+                <span>Characters & Voice Actors Staff</span>
+              </h3>
+              
+              <div id="characters-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Dynamically Hydrated Cards Grid -->
+              </div>
+            </div>
+
+            <!-- Dynamic Screenshots Section Carousel -->
+            <div id="screenshots-section" class="flex flex-col gap-4">
+              <h3 class="text-base font-black text-white flex items-center gap-2">
+                <i class="fa-solid fa-images text-brand-pink"></i>
+                <span>Scenic Captures Gallery</span>
+              </h3>
+              
+              <div id="screenshots-container" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                <!-- screenshots -->
+              </div>
+            </div>
+
+            <!-- Related Anime Iterations Grid Section -->
+            <div id="related-section" class="flex flex-col gap-4">
+              <h3 class="text-base font-black text-white flex items-center gap-2">
+                <i class="fa-solid fa-diagram-project text-indigo-400"></i>
+                <span>Related Media Iterations</span>
+              </h3>
+              
+              <div id="related-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- dynamic relation cards -->
+              </div>
+            </div>
+
+            <!-- Recommendation Index Grid Cards Section -->
+            <div class="flex flex-col gap-4">
+              <h3 class="text-base font-black text-white flex items-center gap-2">
+                <i class="fa-solid fa-thumbs-up text-emerald-400"></i>
+                <span>Community Recommendations</span>
+              </h3>
+              
+              <div id="recommendations-container" class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <!-- dynamic recommendations cards -->
+              </div>
+            </div>
+
+            <!-- Professional Critic Reviews list section -->
+            <div class="flex flex-col gap-4">
+              <h3 class="text-base font-black text-white flex items-center gap-2">
+                <i class="fa-solid fa-star-half-stroke text-amber-400"></i>
+                <span>Critic Reviews & Analytical Logs</span>
+              </h3>
+              
+              <div id="reviews-container" class="flex flex-col gap-4">
+                <!-- dynamically populated MAL user reviews list -->
+              </div>
+            </div>
+
+            <!-- Dynamic Interactive User Comments Section (Local Storage Persisted) -->
+            <div class="glass-panel rounded-2xl p-6 sm:p-8 border border-white/5 flex flex-col gap-6">
+              <h3 class="text-base font-black text-white flex items-center justify-between border-b border-white/5 pb-4">
+                <span class="flex items-center gap-2">
+                  <i class="fa-regular fa-comments text-brand-blue"></i>
+                  <span>User Conversation Panel</span>
+                </span>
+                <span id="comment-count-label" class="text-xs bg-brand-blue/20 text-brand-blue px-2.5 py-0.5 rounded-full font-extrabold">0 Comments</span>
+              </h3>
+
+              <!-- Inp
