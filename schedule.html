@@ -1,0 +1,377 @@
+```html
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anime.Keep - Release Schedule</title>
+  
+  <!-- Requested External Resource Links -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="schedule.css">
+  <script src="app.js" defer></script>
+  <script src="schedule.js" defer></script>
+
+  <!-- Tailwind CSS CDN for styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts (Inter) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            amoled: '#020205',
+            glass: 'rgba(10, 10, 18, 0.45)',
+            'glass-border': 'rgba(255, 255, 255, 0.08)',
+            'glow-blue': 'rgba(59, 130, 246, 0.15)',
+            'glow-purple': 'rgba(147, 51, 234, 0.15)',
+            brand: {
+              blue: '#3b82f6',
+              purple: '#a855f7',
+              cyan: '#06b6d4'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #020205;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e1b4b;
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3b82f6;
+    }
+
+    /* Ambient Background Glows */
+    .glow-bg-blue {
+      position: absolute;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
+      top: -150px;
+      left: -150px;
+      z-index: 0;
+      pointer-events: none;
+      filter: blur(40px);
+    }
+
+    .glow-bg-purple {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+      bottom: 10%;
+      right: -150px;
+      z-index: 0;
+      pointer-events: none;
+      filter: blur(50px);
+    }
+
+    /* Glassmorphism styling */
+    .glass-panel {
+      background: rgba(10, 10, 18, 0.55);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .glass-card {
+      background: rgba(15, 15, 27, 0.45);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .glass-card:hover {
+      transform: translateY(-4px);
+      background: rgba(20, 20, 35, 0.7);
+      border-color: rgba(59, 130, 246, 0.4);
+      box-shadow: 0 12px 40px -10px rgba(59, 130, 246, 0.3);
+    }
+
+    /* Shimmer Animation */
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .shimmer-bg {
+      background: linear-gradient(90deg, #0f0f1b 25%, #1e1e38 50%, #0f0f1b 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.6s infinite linear;
+    }
+
+    /* Accent color lines */
+    .tab-active-line {
+      background: linear-gradient(90deg, #3b82f6, #a855f7);
+    }
+  </style>
+</head>
+<body class="bg-amoled text-slate-100 min-h-screen font-sans relative overflow-x-hidden selection:bg-brand-blue/30 selection:text-white">
+
+  <!-- Background Ambient Glows -->
+  <div class="glow-bg-blue"></div>
+  <div class="glow-bg-purple"></div>
+
+  <!-- Global Application Wrapper -->
+  <div class="relative z-10 flex flex-col min-h-screen">
+
+    <!-- HEADER SECTION -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-white/5 shadow-lg">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
+        
+        <!-- Left: Back Button & Logo -->
+        <div class="flex items-center gap-3 sm:gap-4">
+          <button onclick="window.history.back()" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center hover:bg-white/10 active:scale-95 transition-all text-slate-300" title="Go Back">
+            <i class="fa-solid fa-arrow-left text-sm sm:text-base"></i>
+          </button>
+          
+          <div class="flex items-center gap-2">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-blue to-brand-purple flex items-center justify-center shadow-lg shadow-brand-blue/30">
+              <i class="fa-solid fa-bolt text-white text-sm"></i>
+            </div>
+            <span class="font-extrabold text-lg sm:text-xl tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent">
+              Anime.<span class="bg-gradient-to-r from-brand-blue to-brand-cyan bg-clip-text text-transparent">Keep</span>
+            </span>
+            <span class="hidden sm:inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wider bg-brand-purple/20 text-brand-purple border border-brand-purple/30 uppercase">
+              Schedule
+            </span>
+          </div>
+        </div>
+
+        <!-- Middle: Dynamic Quick Stats & Banner Status -->
+        <div class="hidden md:flex items-center gap-6 text-xs text-slate-400 font-medium">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>Jikan API Live</span>
+          </div>
+          <div class="w-px h-4 bg-white/10"></div>
+          <div id="quick-countdown-banner" class="flex items-center gap-2 text-brand-blue">
+            <i class="fa-regular fa-clock"></i>
+            <span id="next-release-time">Syncing releases...</span>
+          </div>
+        </div>
+
+        <!-- Right: Action Buttons -->
+        <div class="flex items-center gap-2">
+          <!-- Search Toggle Button -->
+          <button id="toggle-search-btn" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center hover:bg-white/10 active:scale-95 transition-all text-slate-300" title="Search Filters">
+            <i class="fa-solid fa-magnifying-glass text-sm"></i>
+          </button>
+          
+          <!-- Refresh API Button -->
+          <button id="refresh-schedule-btn" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center hover:bg-white/10 active:scale-95 transition-all text-slate-300" title="Force Sync Data">
+            <i class="fa-solid fa-rotate text-sm"></i>
+          </button>
+
+          <!-- Settings Button -->
+          <button id="open-settings-btn" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center hover:bg-white/10 active:scale-95 transition-all text-slate-300" title="Preferences">
+            <i class="fa-solid fa-sliders text-sm"></i>
+          </button>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- SEARCH & MULTI-CRITERIA FILTERS BAR (Collapsible) -->
+    <section id="search-filter-section" class="border-b border-white/5 bg-slate-950/60 backdrop-blur-md transition-all duration-300 overflow-hidden max-h-0">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+          
+          <!-- Text Search Engine Input -->
+          <div class="lg:col-span-5 relative">
+            <label class="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wider">Search Schedule</label>
+            <div class="relative">
+              <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
+              <input type="text" id="anime-search-input" placeholder="Search by anime name, studio, or genre..." 
+                class="w-full pl-11 pr-10 py-3 bg-amoled/80 border border-white/10 rounded-xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-brand-blue/60 focus:ring-1 focus:ring-brand-blue/30 transition-all">
+              <button id="clear-search-btn" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-circle-xmark"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Format / Type Select -->
+          <div class="lg:col-span-3">
+            <label class="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wider">Media Format</label>
+            <select id="format-filter" class="w-full px-4 py-3 bg-amoled/80 border border-white/10 rounded-xl text-sm text-slate-300 focus:outline-none focus:border-brand-blue/60 transition-all cursor-pointer">
+              <option value="ALL">All Formats (TV, Movie, OVA, ONA)</option>
+              <option value="tv">TV Broadcasts</option>
+              <option value="movie">Movies / Features</option>
+              <option value="ova">OVA (Specials)</option>
+              <option value="ona">ONA (Streaming Native)</option>
+              <option value="special">Special Events</option>
+            </select>
+          </div>
+
+          <!-- Genre Filter -->
+          <div class="lg:col-span-4">
+            <label class="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wider">Quick Genre Tag Filter</label>
+            <div class="flex flex-wrap gap-1.5 max-h-[92px] overflow-y-auto pr-1">
+              <button class="genre-tag px-3 py-1.5 rounded-lg bg-white/5 border border-white/5 hover:border-white/10 text-xs text-slate-300 transition-all active:scale-95" data-genre="action">Action</button>
+              <button class="genre-tag px-3 py-1.5 rounded-lg bg-white/5 border border-white/5 hover:border-white/10 text-xs text-slate-300 transition-all active:scale-95" data-genre="fantasy">Fantasy</button>
+              <button class="genre-tag px-3 py-1.5 rounded-lg bg-white/5 border border-white/5 hover:border-white/10 text-xs text-slate-300 transition-all active:scale-95" data-genre="sci-fi">Sci-Fi</button>
+              <button class="genre-tag px-3 py-1.5 rounded-lg bg-white/5 border border-white/5 hover:border-white/10 text-xs text-slate-300 transition-all active:scale-95" data-genre="comedy">Comedy</button>
+              <button class="genre-tag px-3 py-1.5 rounded-lg bg-white/5 border border-white/5 hover:border-white/10 text-xs text-slate-300 transition-all active:scale-95" data-genre="romance">Romance</button>
+              <button class="genre-tag px-3 py-1.5 rounded-lg bg-white/5 border border-white/5 hover:border-white/10 text-xs text-slate-300 transition-all active:scale-95" data-genre="drama">Drama</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CORE CONTAINER -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex flex-col gap-8">
+      
+      <!-- VIEWPORTS NAVIGATION TABS: Dynamic Schedule Timelines -->
+      <div class="flex flex-col gap-4">
+        
+        <!-- Tab Menu: Standard Views -->
+        <div class="flex flex-wrap items-center justify-between border-b border-white/10 pb-2 gap-4">
+          <nav class="flex space-x-1 sm:space-x-2" aria-label="Schedule Views">
+            <button data-tab="today" class="schedule-tab-btn relative px-4 py-2.5 text-sm font-semibold rounded-lg transition-all text-brand-blue bg-brand-blue/10">
+              <i class="fa-solid fa-calendar-day mr-2"></i>Today's Airing
+              <span class="absolute bottom-0 left-0 right-0 h-0.5 tab-active-line rounded-full"></span>
+            </button>
+            <button data-tab="tomorrow" class="schedule-tab-btn relative px-4 py-2.5 text-sm font-medium rounded-lg transition-all text-slate-400 hover:text-white hover:bg-white/5">
+              <i class="fa-solid fa-calendar-plus mr-2"></i>Tomorrow
+            </button>
+            <button data-tab="weekly" class="schedule-tab-btn relative px-4 py-2.5 text-sm font-medium rounded-lg transition-all text-slate-400 hover:text-white hover:bg-white/5">
+              <i class="fa-solid fa-calendar-days mr-2"></i>Weekly Calendar
+            </button>
+            <button data-tab="upcoming" class="schedule-tab-btn relative px-4 py-2.5 text-sm font-medium rounded-lg transition-all text-slate-400 hover:text-white hover:bg-white/5">
+              <i class="fa-solid fa-clock-rotate-left mr-2"></i>Upcoming Releases
+            </button>
+            <button data-tab="trending" class="schedule-tab-btn relative px-4 py-2.5 text-sm font-medium rounded-lg transition-all text-slate-400 hover:text-white hover:bg-white/5">
+              <i class="fa-solid fa-fire mr-2"></i>Trending Airing
+            </button>
+          </nav>
+
+          <!-- Quick Switch: Show Favorites Only -->
+          <button id="filter-favorites-btn" class="px-3.5 py-1.5 rounded-lg border border-yellow-500/30 bg-yellow-500/10 text-yellow-500 text-xs font-semibold flex items-center gap-2 hover:bg-yellow-500/20 active:scale-95 transition-all">
+            <i class="fa-solid fa-star"></i>
+            <span>My Reminders (<span id="fav-count">0</span>)</span>
+          </button>
+        </div>
+
+        <!-- WEEKLY CALENDAR MINI-NAV (Shown only when 'weekly' tab is selected) -->
+        <div id="weekly-days-nav" class="hidden glass-panel rounded-2xl p-2 border border-white/5 flex overflow-x-auto gap-1 scrollbar-none">
+          <button data-day="monday" class="weekday-btn flex-1 min-w-[70px] py-2 px-1 text-center rounded-xl text-xs font-medium transition-all text-slate-400 hover:bg-white/5">
+            Mon
+          </button>
+          <button data-day="tuesday" class="weekday-btn flex-1 min-w-[70px] py-2 px-1 text-center rounded-xl text-xs font-medium transition-all text-slate-400 hover:bg-white/5">
+            Tue
+          </button>
+          <button data-day="wednesday" class="weekday-btn flex-1 min-w-[70px] py-2 px-1 text-center rounded-xl text-xs font-medium transition-all text-slate-400 hover:bg-white/5">
+            Wed
+          </button>
+          <button data-day="thursday" class="weekday-btn flex-1 min-w-[70px] py-2 px-1 text-center rounded-xl text-xs font-medium transition-all text-slate-400 hover:bg-white/5">
+            Thu
+          </button>
+          <button data-day="friday" class="weekday-btn flex-1 min-w-[70px] py-2 px-1 text-center rounded-xl text-xs font-medium transition-all text-slate-400 hover:bg-white/5">
+            Fri
+          </button>
+          <button data-day="saturday" class="weekday-btn flex-1 min-w-[70px] py-2 px-1 text-center rounded-xl text-xs font-medium transition-all text-slate-400 hover:bg-white/5">
+            Sat
+          </button>
+          <button data-day="sunday" class="weekday-btn flex-1 min-w-[70px] py-2 px-1 text-center rounded-xl text-xs font-medium transition-all text-slate-400 hover:bg-white/5">
+            Sun
+          </button>
+        </div>
+
+        <!-- LANGUAGE / AUDIO FILTERS (Quick Tags) -->
+        <div class="flex flex-col gap-2">
+          <div class="text-[11px] font-bold tracking-wider text-slate-500 uppercase">Preferred Language / Audio Version</div>
+          <div id="language-filter-tabs" class="flex flex-wrap gap-1.5">
+            <button data-lang="all" class="lang-tab-btn px-4 py-1.5 rounded-full text-xs font-semibold transition-all border border-brand-blue/30 bg-brand-blue/10 text-brand-blue shadow-sm">
+              All Audio
+            </button>
+            <button data-lang="sub" class="lang-tab-btn px-4 py-1.5 rounded-full text-xs font-medium transition-all border border-white/5 bg-white/5 text-slate-300 hover:bg-white/10">
+              Japanese (Subbed)
+            </button>
+            <button data-lang="eng" class="lang-tab-btn px-4 py-1.5 rounded-full text-xs font-medium transition-all border border-white/5 bg-white/5 text-slate-300 hover:bg-white/10">
+              English Dub
+            </button>
+            <button data-lang="hin" class="lang-tab-btn px-4 py-1.5 rounded-full text-xs font-medium transition-all border border-white/5 bg-white/5 text-slate-300 hover:bg-white/10">
+              Hindi Dub
+            </button>
+            <button data-lang="ben" class="lang-tab-btn px-4 py-1.5 rounded-full text-xs font-medium transition-all border border-white/5 bg-white/5 text-slate-300 hover:bg-white/10">
+              Bengali Dub
+            </button>
+            <button data-lang="multi" class="lang-tab-btn px-4 py-1.5 rounded-full text-xs font-medium transition-all border border-white/5 bg-white/5 text-slate-300 hover:bg-white/10">
+              Multi-Audio
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- MAIN CARDS GRID CONTAINER -->
+      <section class="relative">
+        
+        <!-- DYNAMIC CARDS CONTAINER -->
+        <div id="anime-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+          <!-- Dynamically Generated Cards Append Here -->
+        </div>
+
+        <!-- LOADING SKELETON PLACEHOLDERS -->
+        <div id="loading-skeleton-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+          <!-- 10 Shimmering cards -->
+          <div class="glass-card rounded-2xl overflow-hidden flex flex-col h-[400px]">
+            <div class="relative flex-grow h-2/3 shimmer-bg"></div>
+            <div class="p-4 flex flex-col gap-3 h-1/3 justify-between">
+              <div>
+                <div class="h-4 shimmer-bg rounded-md w-3/4 mb-2"></div>
+                <div class="h-3 shimmer-bg rounded-md w-1/2"></div>
+              </div>
+              <div class="flex justify-between items-center mt-2">
+                <div class="h-5 shimmer-bg rounded-full w-20"></div>
+                <div class="h-6 shimmer-bg rounded-full w-6"></div>
+              </div>
+            </div>
+          </div>
+          <!-- Repeater templates for Skeleton -->
+          <div class="glass-card rounded-2xl overflow-hidden flex flex-col h-[400px] hidden sm:flex">
+            <div class="relative flex-grow h-2/3 shimmer-bg"></div>
+            <div class="p-4 flex flex-col gap-3 h-1/3 justify-between">
+              <div><div class="h-4 shimmer-bg rounded-md w-3/4 mb-2"></div><div class="h-3 shimmer-bg rounded-md w-1/2"></div></div>
+              <div class="flex justify-between items-center mt-2"><div class="h-5 shimmer-bg rounded-full w-20"></div><div class="h-6 shimmer-bg rounded-full w-6"></div></div>
+            </div>
+          </div>
+          <div class="glass-card rounded-2xl overflow-hidden flex flex-col h-[400px] hidden md:flex">
+            <div class="relative flex-grow h-2/3 shimmer-bg"></div>
+            <div class="p-4 flex flex-col gap-3 h-1/3 justify-between">
+              <div><div class="h-4 shimmer-bg rounded-md w-3/4 mb-2"></div><div class="h-3 shimmer-bg rounded-md w-1/2"></div></div>
+              <div class="flex justify-between items-center mt-2"><div class="h-5 shimmer-bg rounded-full w-20"></div><div class="h-6 shimmer-bg rounded-full w-6"></div></div>
+            </div>
+          </div>
+          <div class="glass-card rounded-2xl overflow-hidden flex flex-col h-[400px] hidden lg:flex">
+            <div class="relative flex-grow h-2/3 shimmer-bg"></div>
+            <div class="p-4 flex flex-col gap-3 h-1/3 justify-between">
+              <div><div class="h-4 shimmer-bg rounded-md w-3/4 mb-2"></div><div class="h-3 shimmer-bg rounded-md w-1/2"></div></div>
+              <div class="flex justify-between items-center mt-2"><div class="h-5 shimmer-bg rounded-full w-20"></div><div class="h-6 shimmer-bg rounded-full w-6"></div></div>
+            </div>
+          </div>
+          <div class="glass-c
