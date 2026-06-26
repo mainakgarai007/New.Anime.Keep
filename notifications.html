@@ -1,0 +1,436 @@
+```html
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anime.Keep - Notifications & Smart Recommendations</title>
+
+  <!-- External Resource Fallback Links -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="app.css">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts (Inter) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            amoled: '#020205',
+            glass: 'rgba(10, 10, 18, 0.45)',
+            'glass-border': 'rgba(255, 255, 255, 0.08)',
+            'glow-blue': 'rgba(59, 130, 246, 0.15)',
+            'glow-purple': 'rgba(147, 51, 234, 0.15)',
+            brand: {
+              blue: '#3b82f6',
+              purple: '#a855f7',
+              cyan: '#06b6d4',
+              pink: '#ec4899',
+              amber: '#f59e0b',
+              emerald: '#10b981'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom AMOLED Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #020205;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #121026;
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3b82f6;
+    }
+
+    /* Ambient Glow Effects */
+    .glow-radial-blue {
+      position: absolute;
+      width: 550px;
+      height: 550px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, rgba(0, 0, 0, 0) 70%);
+      top: -150px;
+      left: -150px;
+      z-index: 0;
+      pointer-events: none;
+      filter: blur(40px);
+    }
+
+    .glow-radial-purple {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+      bottom: 10%;
+      right: -200px;
+      z-index: 0;
+      pointer-events: none;
+      filter: blur(50px);
+    }
+
+    /* Glassmorphism Styles */
+    .glass-panel {
+      background: rgba(10, 10, 18, 0.55);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .glass-card {
+      background: rgba(15, 15, 27, 0.45);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .glass-card:hover {
+      transform: translateY(-2px);
+      background: rgba(20, 20, 35, 0.7);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 12px 40px -10px rgba(59, 130, 246, 0.25);
+    }
+
+    /* Shimmer effect for skeleton panels */
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .shimmer-bg {
+      background: linear-gradient(90deg, #090912 25%, #18182b 50%, #090912 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.6s infinite linear;
+    }
+  </style>
+</head>
+<body class="bg-amoled text-slate-100 min-h-screen font-sans relative overflow-x-hidden selection:bg-brand-blue/30 selection:text-white">
+
+  <!-- Backdrop Glowing Accents -->
+  <div class="glow-radial-blue"></div>
+  <div class="glow-radial-purple"></div>
+
+  <!-- Global Interface Scaffold -->
+  <div class="relative z-10 flex flex-col min-h-screen">
+
+    <!-- STICKY TOP HEADER -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-white/5 shadow-lg">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
+        
+        <!-- Left: Logo & Back Button -->
+        <div class="flex items-center gap-3 sm:gap-4">
+          <button onclick="window.history.back()" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center hover:bg-white/10 active:scale-95 transition-all text-slate-300" title="Go Back">
+            <i class="fa-solid fa-arrow-left text-sm sm:text-base"></i>
+          </button>
+          
+          <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='schedule.html'">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-blue to-brand-purple flex items-center justify-center shadow-lg shadow-brand-blue/30">
+              <i class="fa-solid fa-bell text-white text-sm"></i>
+            </div>
+            <span class="font-extrabold text-lg sm:text-xl tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent">
+              Anime.<span class="bg-gradient-to-r from-brand-blue to-brand-cyan bg-clip-text text-transparent">Keep</span>
+            </span>
+            <span class="hidden sm:inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wider bg-brand-pink/20 text-brand-pink border border-brand-pink/30 uppercase">
+              Inbox
+            </span>
+          </div>
+        </div>
+
+        <!-- Right Quick Controls -->
+        <div class="flex items-center gap-2">
+          <button id="mark-all-read-btn" class="px-3 h-10 rounded-xl glass-card flex items-center justify-center hover:bg-white/5 active:scale-95 transition-all text-xs font-bold text-slate-300 hover:text-white gap-2" title="Mark All Read">
+            <i class="fa-solid fa-envelope-open"></i>
+            <span class="hidden md:inline">Mark All Read</span>
+          </button>
+          <button id="clear-notifications-btn" class="px-3 h-10 rounded-xl glass-card flex items-center justify-center hover:bg-rose-950/20 active:scale-95 transition-all text-xs font-bold text-slate-400 hover:text-rose-400 gap-2 border hover:border-rose-500/20" title="Clear All History">
+            <i class="fa-solid fa-trash-can"></i>
+            <span class="hidden md:inline">Clear All</span>
+          </button>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- CORE INTERACTIVE LAYOUT -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- LEFT COLUMN: Notification Feed & Filters (8 cols) -->
+        <section class="lg:col-span-8 flex flex-col gap-6">
+          
+          <!-- SEARCH & TAB FILTERS PANEL -->
+          <div class="glass-panel rounded-3xl p-5 border border-white/5 flex flex-col gap-4">
+            <!-- Search notifications box -->
+            <div class="relative w-full">
+              <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+              <input type="text" id="notif-search-input" placeholder="Search notifications by title, show, or description..." 
+                class="w-full pl-11 pr-10 py-3 bg-amoled/80 border border-white/10 rounded-xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-brand-blue/60 focus:ring-1 focus:ring-brand-blue/30 transition-all">
+              <button id="clear-search-btn" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-circle-xmark"></i>
+              </button>
+            </div>
+
+            <!-- Horizontal Tab Buttons -->
+            <div class="flex overflow-x-auto gap-2 pb-1 scrollbar-none border-t border-white/5 pt-3">
+              <button data-tab="all" class="notif-tab-btn px-4 py-2 text-xs font-bold rounded-xl transition-all bg-brand-blue/15 text-brand-blue border border-brand-blue/25 shrink-0 flex items-center gap-1.5">
+                All Alerts <span id="badge-all" class="bg-brand-blue/20 text-brand-blue px-1.5 py-0.5 rounded-full text-[9px]">0</span>
+              </button>
+              <button data-tab="unread" class="notif-tab-btn px-4 py-2 text-xs font-semibold rounded-xl transition-all text-slate-400 hover:text-white hover:bg-white/5 shrink-0 flex items-center gap-1.5">
+                Unread <span id="badge-unread" class="bg-white/10 text-slate-300 px-1.5 py-0.5 rounded-full text-[9px]">0</span>
+              </button>
+              <button data-tab="release" class="notif-tab-btn px-4 py-2 text-xs font-semibold rounded-xl transition-all text-slate-400 hover:text-white hover:bg-white/5 shrink-0 flex items-center gap-1.5">
+                <i class="fa-solid fa-calendar text-[10px]"></i> Releases
+              </button>
+              <button data-tab="recommendation" class="notif-tab-btn px-4 py-2 text-xs font-semibold rounded-xl transition-all text-slate-400 hover:text-white hover:bg-white/5 shrink-0 flex items-center gap-1.5">
+                <i class="fa-solid fa-wand-magic-sparkles text-[10px]"></i> Recommendations
+              </button>
+              <button data-tab="system" class="notif-tab-btn px-4 py-2 text-xs font-semibold rounded-xl transition-all text-slate-400 hover:text-white hover:bg-white/5 shrink-0 flex items-center gap-1.5">
+                <i class="fa-solid fa-shield text-[10px]"></i> System
+              </button>
+            </div>
+          </div>
+
+          <!-- NOTIFICATIONS LIST VIEWPORTS -->
+          <div class="flex flex-col gap-4">
+            
+            <div id="notifications-list" class="flex flex-col gap-4">
+              <!-- Dynamically Hydrated Notification Cards Go Here -->
+            </div>
+
+            <!-- EMPTY INBOX STATE -->
+            <div id="empty-inbox-view" class="hidden py-16 px-4 flex flex-col items-center justify-center text-center max-w-sm mx-auto">
+              <div class="w-16 h-16 rounded-full bg-slate-900 flex items-center justify-center text-slate-600 mb-6 border border-white/5 shadow-inner">
+                <i class="fa-solid fa-bell-slash text-2xl"></i>
+              </div>
+              <h3 class="text-lg font-bold text-slate-100 mb-1">Inbox Completely Clear</h3>
+              <p class="text-slate-400 text-xs mb-6 leading-relaxed">
+                You have no pending notification alerts matching your search criteria. Bookmark schedules or follow series to receive alert updates!
+              </p>
+              <button onclick="generateSampleDemoNotifications()" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 font-bold text-xs border border-white/10 transition-all active:scale-95 shadow-md">
+                Generate Demo Notifications
+              </button>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- RIGHT COLUMN: Smart Recommendations & Spotlights (4 cols) -->
+        <aside class="lg:col-span-4 flex flex-col gap-6">
+          
+          <!-- SPOTLIGHT 1: RECOMMENDED FOR YOU (Jikan Synced or premium fallback) -->
+          <div class="glass-panel rounded-3xl p-5 border border-white/5 flex flex-col gap-4">
+            <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 border-b border-white/5 pb-2 flex items-center gap-2">
+              <i class="fa-solid fa-wand-magic-sparkles text-brand-blue animate-pulse"></i>
+              <span>Smart Recommendations</span>
+            </h3>
+
+            <!-- Live Shimmer Placeholder for recommendations -->
+            <div id="recom-shimmer" class="flex flex-col gap-3">
+              <div class="flex gap-3 h-14 items-center">
+                <div class="w-10 h-full rounded-lg shimmer-bg"></div>
+                <div class="flex-grow flex flex-col gap-2">
+                  <div class="h-3 shimmer-bg rounded w-3/4"></div>
+                  <div class="h-2.5 shimmer-bg rounded w-1/2"></div>
+                </div>
+              </div>
+              <div class="flex gap-3 h-14 items-center">
+                <div class="w-10 h-full rounded-lg shimmer-bg"></div>
+                <div class="flex-grow flex flex-col gap-2">
+                  <div class="h-3 shimmer-bg rounded w-2/3"></div>
+                  <div class="h-2.5 shimmer-bg rounded w-2/5"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hydrated Recommendations items -->
+            <div id="smart-recom-container" class="hidden flex-col gap-3">
+              <!-- Cards dynamic append -->
+            </div>
+          </div>
+
+          <!-- SPOTLIGHT 2: COMMUNITY HIGHLIGHTS -->
+          <div class="glass-panel rounded-3xl p-5 border border-white/5 flex flex-col gap-4">
+            <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 border-b border-white/5 pb-2 flex items-center gap-2">
+              <i class="fa-solid fa-users text-brand-purple"></i>
+              <span>Community Spotlights</span>
+            </h3>
+
+            <!-- Static high-quality community activities logs -->
+            <div class="flex flex-col gap-3.5 text-xs">
+              <div class="flex flex-col gap-1 p-3 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 cursor-pointer transition-all">
+                <span class="text-slate-500 font-bold uppercase tracking-wider text-[9px]"><i class="fa-solid fa-comments text-brand-purple mr-1"></i>Trending Discussion</span>
+                <p class="font-extrabold text-slate-200 line-clamp-1 leading-snug">Frieren Episode 28: Full Analysis Forum</p>
+                <span class="text-slate-400 mt-1 font-semibold">1,248 participants today</span>
+              </div>
+
+              <div class="flex flex-col gap-1 p-3 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 cursor-pointer transition-all">
+                <span class="text-slate-500 font-bold uppercase tracking-wider text-[9px]"><i class="fa-solid fa-chart-line text-brand-cyan mr-1"></i>Airing Peak Rating</span>
+                <p class="font-extrabold text-slate-200 line-clamp-1 leading-snug">Solo Leveling Episode 12 peak ratings</p>
+                <span class="text-slate-400 mt-1 font-semibold">★ 9.42 average MAL rating</span>
+              </div>
+            </div>
+          </div>
+
+        </aside>
+
+      </div>
+    </main>
+
+    <!-- NOTIFICATION SYSTEM TOAST SNACKBAR -->
+    <div id="toast-notification" class="fixed bottom-6 right-6 z-[100] transform translate-y-20 opacity-0 pointer-events-none transition-all duration-300 glass-panel border border-brand-pink/30 rounded-2xl p-4 shadow-2xl flex items-center gap-3.5 max-w-sm">
+      <div class="w-10 h-10 rounded-xl bg-brand-pink/10 flex items-center justify-center text-brand-pink text-base shrink-0">
+        <i class="fa-solid fa-bell-on"></i>
+      </div>
+      <div>
+        <h5 id="toast-title" class="font-bold text-xs text-white">Inbox Cleaned</h5>
+        <p id="toast-body" class="text-slate-400 text-[11px] mt-0.5 leading-tight">Your notifications status updated.</p>
+      </div>
+    </div>
+
+    <!-- MAIN BRANDED FOOTER -->
+    <footer class="mt-auto border-t border-white/5 bg-slate-950/40 py-8 relative z-10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center gap-4">
+        <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='schedule.html'">
+          <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-brand-blue to-brand-purple flex items-center justify-center">
+            <i class="fa-solid fa-bolt text-white text-xs"></i>
+          </div>
+          <span class="font-extrabold text-sm tracking-tight text-white">
+            Anime.Keep
+          </span>
+        </div>
+        <p class="text-xs text-slate-500 max-w-md leading-relaxed">
+          The ultimate intelligent Inbox and discovery suite. Follow series, read reviews, and get customized notifications.
+        </p>
+        <p class="text-[10px] text-slate-600">
+          &copy; 2026 Anime.Keep. All portfolio parameters saved locally.
+        </p>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- JAVASCRIPT LOGIC & API RECOMMENDATIONS INTEGRATION -->
+  <script>
+    const NOTIFS_STORAGE_KEY = "anime_keep_notifications_db";
+    const REMINDERS_STORAGE_KEY = "anime_keep_reminders";
+
+    // Premium default simulated notification events
+    const initialNotificationDefaults = [
+      {
+        id: "notif_1001",
+        type: "release",
+        title: "Episode Airing Now",
+        description: "Ep 28 of Frieren: Beyond Journey's End (Japanese Subbed) is now broadcasting live on official networks.",
+        time: "10 minutes ago",
+        read: false,
+        poster: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=150&auto=format&fit=crop",
+        animeId: 52991
+      },
+      {
+        id: "notif_1002",
+        type: "recommendation",
+        title: "Recommended Review Match",
+        description: "Based on your appreciation of Solo Leveling, community members suggest reading reviews for 'Tower of God'.",
+        time: "1 hour ago",
+        read: false,
+        poster: "https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=150&auto=format&fit=crop",
+        animeId: 40591
+      },
+      {
+        id: "notif_1003",
+        type: "system",
+        title: "Offline Storage Optimization Complete",
+        description: "Schedules caching engine cleared 48 expired records from your LocalStorage database successfully.",
+        time: "4 hours ago",
+        read: true,
+        poster: null,
+        animeId: null
+      },
+      {
+        id: "notif_1004",
+        type: "release",
+        title: "Upcoming Episode Alert",
+        description: "Solo Leveling Episode 12 is scheduled to air in 30 minutes. Verify your audio preferences.",
+        time: "1 day ago",
+        read: true,
+        poster: "https://images.unsplash.com/photo-1541562232579-512a21360020?q=80&w=150&auto=format&fit=crop",
+        animeId: 52299
+      }
+    ];
+
+    let inboxState = {
+      notifications: [],
+      activeTab: "all",
+      searchQuery: ""
+    };
+
+    window.onload = function() {
+      loadInboxState();
+      initializePageListeners();
+      
+      // Concurrently query Jikan API to build actual trending Smart recommendations on side panels
+      fetchSmartRecommendationsFromJikan();
+    };
+
+    /**
+     * Map trigger events in page layouts.
+     */
+    function initializePageListeners() {
+      const searchInput = document.getElementById('notif-search-input');
+      const clearSearch = document.getElementById('clear-search-btn');
+      const tabBtns = document.querySelectorAll('.notif-tab-btn');
+      const markReadBtn = document.getElementById('mark-all-read-btn');
+      const clearBtn = document.getElementById('clear-notifications-btn');
+
+      // Live search input handler
+      if (searchInput) {
+        searchInput.addEventListener('input', (event) => {
+          const val = event.target.value.trim();
+          inboxState.searchQuery = val;
+          
+          if (val.length > 0) {
+            clearSearch.classList.remove('hidden');
+          } else {
+            clearSearch.classList.add('hidden');
+          }
+          applyFiltersAndRender();
+        });
+      }
+
+      if (clearSearch) {
+        clearSearch.addEventListener('click', () => {
+          searchInput.value = '';
+          inboxState.searchQuery = '';
+          clearSearch.classList.add('hidden');
+          applyFiltersAndRender();
+        });
+      }
+
+      // Horizontal filtering Tabs
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          tabBtns.forEach(b => {
+            b.className = "notif-tab-btn px-4 py-2 text-xs font-semibold rounded-xl transition-all text-slate-400 hover:text-white hover:bg-white/5 shrink-0 flex items-center gap-1.5";
+          });
+          btn.className = "notif-tab-btn px-4 py-2 text-xs font-bold
