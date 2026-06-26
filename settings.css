@@ -1,0 +1,282 @@
+```css
+/* ================================================================================
+   ANIME.KEEP - SETTINGS & PERSONALIZATION STYLES (MG STYLE)
+   Architect: Senior CSS Architect & UI/UX Specialist
+   Theme: Dark AMOLED Glassmorphism with Dynamic Accents and Premium Glows
+================================================================================
+*/
+
+/* --- 1. DESIGN VARIABLES & ACCENT SYSTEM --- */
+:root {
+  /* Default Colors */
+  --bg-amoled: #020205;
+  --bg-dark-900: #06060c;
+  --bg-dark-800: #0a0a14;
+  --bg-dark-700: #121226;
+  
+  --bg-glass: rgba(10, 10, 18, 0.55);
+  --bg-glass-hover: rgba(20, 20, 35, 0.75);
+  --border-glass: rgba(255, 255, 255, 0.06);
+  --border-glass-active: rgba(59, 130, 246, 0.35);
+
+  /* Dynamic Accent Fallbacks (Overridden via JavaScript if chosen) */
+  --brand-accent: #3b82f6;
+  --brand-accent-glow: rgba(59, 130, 246, 0.25);
+  --font-multiplier: 100%;
+
+  /* Design Tokens */
+  --radius-2xl: 24px;
+  --radius-xl: 16px;
+  --radius-lg: 12px;
+  --radius-md: 8px;
+
+  /* Premium Motion Speeds (Elastic Spring Physics) */
+  --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-snappy: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* --- 2. GLOBAL RESET & CUSTOM SCROLLBAR ENGINE --- */
+body {
+  background-color: var(--bg-amoled);
+  color: #f8fafc;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+  transition: var(--transition-smooth);
+}
+
+/* Custom Scrollbar Map (AMOLED / Minimalist Blend) */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-amoled);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-dark-700);
+  border-radius: 999px;
+  border: 1px solid var(--bg-amoled);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-accent);
+}
+
+/* --- 3. GLASSMORPHISM STRUCTURES --- */
+.glass-panel {
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-glass);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.7);
+}
+
+.glass-card {
+  background: rgba(15, 15, 27, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-xl);
+  transition: var(--transition-smooth);
+}
+
+/* --- 4. PREMIUM SETTING CARDS --- */
+section.glass-panel {
+  transition: var(--transition-smooth);
+}
+
+section.glass-panel:hover {
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 50px -15px var(--brand-accent-glow);
+}
+
+/* Dynamic Accent Map Helpers */
+.text-dynamic-accent {
+  color: var(--brand-accent) !important;
+}
+
+.border-dynamic-accent {
+  border-color: var(--brand-accent) !important;
+}
+
+.shadow-dynamic-glow {
+  box-shadow: 0 4px 20px -2px var(--brand-accent-glow) !important;
+}
+
+/* --- 5. INTERACTIVE FORM FIELDS, TOGGLES, SLIDERS --- */
+
+/* Custom Premium Toggle Switches */
+.switch-label {
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  background-color: var(--bg-dark-700);
+  border: 1px solid var(--border-glass);
+  border-radius: 999px;
+  position: relative;
+  cursor: pointer;
+  transition: var(--transition-snappy);
+}
+
+.switch-label::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  background-color: #f8fafc;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  transition: var(--transition-smooth);
+}
+
+.switch-checkbox:checked + .switch-label {
+  background-color: var(--brand-accent);
+  border-color: transparent;
+  box-shadow: 0 0 14px var(--brand-accent-glow);
+}
+
+.switch-checkbox:checked + .switch-label::after {
+  transform: translateX(20px);
+}
+
+/* Sleek Dropdown Selection Fields */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px;
+  padding-right: 36px !important;
+  background-color: var(--bg-dark-900);
+  border: 1px solid var(--border-glass);
+  color: #f8fafc;
+  transition: var(--transition-snappy);
+}
+
+select:focus {
+  border-color: var(--brand-accent);
+  box-shadow: 0 0 12px var(--brand-accent-glow);
+  outline: none;
+}
+
+/* Custom Range Sliders */
+input[type="range"] {
+  background: var(--bg-dark-900);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  outline: none;
+  transition: var(--transition-snappy);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--brand-accent);
+  cursor: pointer;
+  box-shadow: 0 0 10px var(--brand-accent-glow);
+  transition: var(--transition-snappy);
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 15px var(--brand-accent);
+}
+
+/* --- 6. PREMIUM HOVER ACTION BUTTONS --- */
+button {
+  transition: var(--transition-snappy);
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+/* Appearance Color Pill hover effects */
+button[onclick*="updateAccentColorVariables"]:hover {
+  transform: scale(1.15) rotate(15deg);
+  box-shadow: 0 0 20px var(--brand-accent-glow);
+}
+
+/* --- 7. NOTIFICATION TOASTS & MODALS --- */
+#feedback-modal {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: var(--transition-smooth);
+}
+
+#toast-notification {
+  transition: var(--transition-smooth);
+}
+
+/* --- 8. PERFORMANCE GLOWS & AMBIENT ANIMATIONS --- */
+@keyframes float-ambient {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-10px) scale(1.03); }
+}
+
+.glow-radial-blue,
+.glow-radial-purple {
+  animation: float-ambient 10s infinite ease-in-out;
+}
+
+/* --- 9. SKELETON SHIMMER CODES --- */
+@keyframes shimmer-sweep {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer-bg {
+  background: linear-gradient(90deg, #05050b 25%, #141427 50%, #05050b 75%);
+  background-size: 200% 100%;
+  animation: shimmer-sweep 1.6s infinite linear;
+}
+
+/* --- 10. SYSTEM RESPONSIVE BREAKPOINTS --- */
+
+/* Mobile native adjustments */
+@media (max-width: 639px) {
+  .glass-panel {
+    border-radius: var(--radius-xl);
+  }
+
+  #feedback-modal .glass-panel {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 640px) and (max-width: 1023px) {
+  aside {
+    position: static !important;
+  }
+}
+
+/* --- 11. REDUCE MOTION SETTINGS --- */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-delay: 0s !important;
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0s !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .glass-card:hover,
+  .glow-radial-blue,
+  .glow-radial-purple {
+    transform: none !important;
+    animation: none !important;
+  }
+}
+
+```
+    
