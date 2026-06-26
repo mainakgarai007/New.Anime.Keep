@@ -1,4 +1,3 @@
-```javascript
 /**
  * Anime.Keep - Release Schedule Module Engine
  * -----------------------------------------------------------------------------
