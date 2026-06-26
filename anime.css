@@ -1,1 +1,224 @@
+```css
+/* ================================================================================
+   ANIME.KEEP - ANIME DETAILS PAGE CSS ARCHITECTURE (MG STYLE)
+   Architect: Senior CSS Architect & UI/UX Designer
+   Inspirations: AniList, Discord, Premium Glassmorphism
+================================================================================
+*/
 
+/* --- 1. DESIGN SYSTEM & SYSTEM VARIABLES --- */
+:root {
+  /* Colors */
+  --bg-amoled: #020205;
+  --bg-dark-900: #06060c;
+  --bg-dark-800: #0a0a14;
+  --bg-dark-700: #101020;
+  
+  --bg-glass: rgba(10, 10, 18, 0.55);
+  --bg-glass-hover: rgba(18, 18, 32, 0.75);
+  --border-glass: rgba(255, 255, 255, 0.06);
+  --border-glass-active: rgba(59, 130, 246, 0.35);
+
+  --brand-blue: #3b82f6;
+  --brand-purple: #a855f7;
+  --brand-cyan: #06b6d4;
+  --brand-pink: #ec4899;
+  --brand-amber: #f59e0b;
+  --brand-emerald: #10b981;
+
+  /* Ambient Glow Multipliers */
+  --glow-blue: rgba(59, 130, 246, 0.25);
+  --glow-purple: rgba(168, 85, 247, 0.2);
+  --glow-pink: rgba(236, 72, 153, 0.25);
+
+  /* Elevation & Design Tokens */
+  --blur-amount: 18px;
+  --radius-2xl: 24px;
+  --radius-xl: 16px;
+  --radius-lg: 12px;
+  --radius-md: 8px;
+
+  /* Premium Motion Design (iOS-like physics ease) */
+  --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-snappy: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* --- 2. BASE RESET & SCROLLBAR ENGINE --- */
+body {
+  background-color: var(--bg-amoled);
+  color: #f8fafc;
+  font-family: 'Inter', -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Scrollbar customizations (Discord/Modern UI inspired) */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-amoled);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-dark-700);
+  border-radius: 999px;
+  border: 1px solid var(--bg-amoled);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-blue);
+}
+
+/* --- 3. GLASSMORPHISM CONTAINER SYSTEM --- */
+.glass-panel {
+  background: var(--bg-glass);
+  backdrop-filter: blur(var(--blur-amount));
+  -webkit-backdrop-filter: blur(var(--blur-amount));
+  border: 1px solid var(--border-glass);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.6);
+}
+
+.glass-card {
+  background: rgba(15, 15, 27, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-xl);
+  transition: var(--transition-smooth);
+}
+
+.glass-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  background: var(--bg-glass-hover);
+  border-color: var(--border-glass-active);
+  box-shadow: 0 20px 40px -15px var(--glow-blue),
+              0 0 25px -10px var(--glow-purple);
+}
+
+/* --- 4. COVER BANNER & POSTER LAYOUTS --- */
+#anime-banner {
+  transform: scale(1.02);
+  transition: filter 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body:hover #anime-banner {
+  transform: scale(1.05);
+}
+
+/* Floating Poster Effects */
+#anime-poster {
+  transition: var(--transition-smooth);
+  box-shadow: 0 15px 45px -5px rgba(0, 0, 0, 0.8);
+}
+
+#anime-poster:hover {
+  transform: translateY(-6px) scale(1.02) rotate(1deg);
+  box-shadow: 0 25px 50px -10px var(--glow-blue),
+              0 10px 20px -10px rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* --- 5. SYSTEM INTERACTIVE BUTTONS & ANIMATIONS --- */
+button {
+  transition: var(--transition-snappy);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+/* Premium active pop transition for bookmark system alerts button */
+@keyframes pop-bounce {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.25) rotate(-10deg); }
+  100% { transform: scale(1); }
+}
+
+.favorite-active-animation {
+  animation: pop-bounce 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* --- 6. SHIMMERING SKELETONS LOADING STATE --- */
+@keyframes shimmer-sweep {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer-bg {
+  background: linear-gradient(90deg, #05050b 25%, #141427 50%, #05050b 75*);
+  background-size: 200% 100%;
+  animation: shimmer-sweep 1.6s infinite linear;
+}
+
+/* --- 7. AMBIENT REACTION GLOW EFFECTS --- */
+@keyframes float-ambient {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-15px) scale(1.05); }
+}
+
+.glow-radial-blue,
+.glow-radial-purple {
+  animation: float-ambient 8s infinite ease-in-out;
+}
+
+/* --- 8. SECTION SPECIFIC STYLING --- */
+
+/* Promotional Video Frame Controls */
+#trailer-section iframe {
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Cast and Staff grid cards details */
+#characters-container .glass-card {
+  transition: var(--transition-snappy);
+}
+
+#characters-container .glass-card:hover {
+  background: rgba(25, 25, 45, 0.6);
+  border-color: rgba(168, 85, 247, 0.25);
+  box-shadow: 0 8px 25px -8px var(--glow-purple);
+}
+
+/* Scenic screenshot captures list aspect rules */
+#screenshots-container .group {
+  transition: var(--transition-smooth);
+}
+
+#screenshots-container .group:hover {
+  border-color: rgba(236, 72, 153, 0.3);
+  box-shadow: 0 12px 30px -10px var(--glow-pink);
+}
+
+/* Analyst and Review user cards styling */
+#reviews-container .glass-panel {
+  background: rgba(12, 12, 22, 0.4);
+  transition: var(--transition-smooth);
+}
+
+#reviews-container .glass-panel:hover {
+  background: rgba(16, 16, 30, 0.6);
+  border-color: rgba(245, 158, 11, 0.2);
+  box-shadow: 0 12px 30px -10px rgba(245, 158, 11, 0.15);
+}
+
+/* --- 9. ACCESSIBILITY & MOTION POLICIES --- */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-delay: 0s !important;
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0s !important;
+    scroll-behavior: auto !important;
+  }
+  
+  #anime-banner,
+  #anime-poster:hover,
+  .glass-card:hover {
+    transform: none !important;
+  }
+}
+
+```
