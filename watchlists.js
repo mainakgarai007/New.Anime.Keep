@@ -1,4 +1,3 @@
-```javascript
 /**
  * Anime.Keep - Watchlists & Collections Module Engine
  * -----------------------------------------------------------------------------
