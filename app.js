@@ -1,556 +1,405 @@
 /**
- * Anime.Keep - Track • Organize • Discover • Watch • Connect
- * Production-Ready Standalone Client Application Architecture
- * Designed by a Senior Software Architect & JavaScript Engineer
- * * Features implemented:
- * - Direct style & component injection for standalone single-file execution
- * - Reactive State Management
- * - Robust Jikan v4 API engine with Debouncing, Caching, and Online/Offline Fallbacks
- * - Advanced Multi-tier Filtration (Genre, Status, Score, Type, Season, Year)
- * - Complete CRUD on Tracked Anime List with Modal forms and strict validations
- * - Fully animated custom Notification Toast pipeline
- * - Statistics Engine showing horizontal charts, averages, and aggregate progress
- * - System theme integrations (Light/Dark/AMOLED mode support)
- * - File-based Import / Export (JSON standard check)
- * - Productivity Keyboard Shortcuts & accessibility controls
+ * Anime.Keep — Comprehensive Rest client & Library Management Engine (MG Style)
+ * -----------------------------------------------------------------------------
+ * Architect: Senior Frontend Developer, UI/UX Designer & Product Specialist
+ * Stack: Pure ES6+ Modern JavaScript Client Model (No external runtime dependencies)
+ * Integrations: Jikan v4 REST API Proxy, HTML5 Browser localStorages System
+ * * This engine handles CRUD cataloging, deep statistics ledgers, Jikan API proxied searches 
+ * with debounce, advanced filtering, modal and sidebar drawer animations, persistent 
+ * toast alerts, keyboard shortcuts, and full offline sync capabilities.
  */
 
-(function () {
-  'use strict';
+// Global Configuration Space
+const CONFIG = {
+  JIKAN_API_BASE: "https://api.jikan.moe/v4",
+  API_TIMEOUT: 8000,
+  DEBOUNCE_DELAY: 300,
+  STORAGE_KEYS: {
+    ANIME: "anime_keep_library_data",
+    SETTINGS: "anime_keep_user_settings",
+    RECENT_SEARCH: "anime_keep_recent_searches_logs"
+  }
+};
 
-  // =========================================================================
-  // 1. DYNAMIC ASSET & STYLING INJECTOR
-  // =========================================================================
-  const injectDependencies = () => {
-    // 1. Tailwind CSS
-    if (!document.getElementById('tailwind-cdn')) {
-      const script = document.createElement('script');
-      script.id = 'tailwind-cdn';
-      script.src = 'https://cdn.tailwindcss.com';
-      document.head.appendChild(script);
-    }
-
-    // Tailwind Custom Configuration
-    window.tailwind = {
-      config: {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Plus Jakarta Sans', 'sans-serif'],
-              display: ['Outfit', 'sans-serif'],
-            },
-            colors: {
-              brand: {
-                50: '#f5f3ff',
-                100: '#ede9fe',
-                200: '#ddd6fe',
-                300: '#c4b5fd',
-                400: '#a78bfa',
-                500: '#8b5cf6',
-                600: '#7c3aed',
-                700: '#6d28d9',
-                800: '#5b21b6',
-                900: '#4c1d95',
-                950: '#2e1065',
-              },
-              dark: {
-                50: '#f8fafc',
-                100: '#f1f5f9',
-                800: '#1e293b',
-                900: '#0f172a',
-                950: '#030712'
-              }
-            }
-          }
-        }
-      }
+// Application State Management
+class AppState {
+  constructor() {
+    this.animeList = [];
+    this.recentSearches = [];
+    this.settings = {
+      amoledMode: true,
+      darkTheme: true,
+      animationsFluid: true
     };
+    this.activeSearchQuery = "";
+    this.activeFilters = {
+      genre: "ALL",
+      status: "ALL",
+      season: "ALL",
+      year: "ALL",
+      score: "ALL",
+      language: "ALL"
+    };
+    this.isOffline = !navigator.onLine;
+    this.activeEditId = null;
+    this.activeDeleteId = null;
+  }
+}
 
-    // 2. FontAwesome Icons
-    if (!document.getElementById('fontawesome-cdn')) {
-      const link = document.createElement('link');
-      link.id = 'fontawesome-cdn';
-      link.rel = 'stylesheet';
-      link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
-      document.head.appendChild(link);
+const State = new AppState();
+
+// =============================================================================
+// 1. TOAST NOTIFICATION SYSTEM
+// =============================================================================
+class ToastNotificationManager {
+  constructor() {
+    this.container = this.createContainer();
+  }
+
+  createContainer() {
+    let el = document.getElementById("toast-notification-center");
+    if (!el) {
+      el = document.createElement("div");
+      el.id = "toast-notification-center";
+      el.className = "fixed bottom-6 left-6 z-[100] flex flex-col gap-3 max-w-sm w-[90%]";
+      document.body.appendChild(el);
     }
+    return el;
+  }
 
-    // 3. Google Fonts
-    if (!document.getElementById('google-fonts-cdn')) {
-      const link = document.createElement('link');
-      link.id = 'google-fonts-cdn';
-      link.rel = 'stylesheet';
-      link.href = 'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap';
-      document.head.appendChild(link);
-    }
-
-    // 4. Custom Application Keyframe Animations & CSS Variables
-    if (!document.getElementById('anime-keep-custom-styles')) {
-      const style = document.createElement('style');
-      style.id = 'anime-keep-custom-styles';
-      style.innerHTML = `
-        /* Premium Smooth Scrollbar */
-        ::-webkit-scrollbar {
-          width: 8px;
-          height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .dark ::-webkit-scrollbar-thumb {
-          background: #4b5563;
-          border-radius: 9999px;
-        }
-        ::-webkit-scrollbar-thumb {
-          background: #cbd5e1;
-          border-radius: 9999px;
-        }
-
-        /* Fluid transitions */
-        .page-transition {
-          animation: pageFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
-        }
-        .card-insert {
-          animation: cardSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-        }
-        .card-delete {
-          animation: cardFadeOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
-        }
-        .modal-zoom {
-          animation: modalScaleUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-        }
-
-        @keyframes pageFadeIn {
-          from { opacity: 0; transform: translateY(12px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes cardSlideIn {
-          from { opacity: 0; transform: translateY(24px) scale(0.95); }
-          to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        @keyframes cardFadeOut {
-          to { opacity: 0; transform: scale(0.9) translateY(-10px); height: 0; padding: 0; margin: 0; }
-        }
-        @keyframes modalScaleUp {
-          from { opacity: 0; transform: scale(0.9) translateY(20px); }
-          to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        /* Glassmorphism Accents */
-        .glass-panel {
-          background: rgba(255, 255, 255, 0.7);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-        }
-        .dark .glass-panel {
-          background: rgba(15, 23, 42, 0.6);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-        }
-        .amoled .glass-panel {
-          background: rgba(0, 0, 0, 0.8);
-          border: 1px solid #1e293b;
-        }
-        .amoled-bg {
-          background-color: #000000 !important;
-        }
-        
-        /* Disabled transitions configuration */
-        .no-transitions * {
-          transition: none !important;
-          animation: none !important;
-        }
-      `;
-      document.head.appendChild(style);
-    }
-  };
-
-  // =========================================================================
-  // 2. SYSTEM UTILITIES & CONFIGURATIONS
-  // =========================================================================
-  const Utils = {
-    uuid: () => 'ak-' + Math.random().toString(36).substr(2, 9) + '-' + Date.now().toString(36),
+  show(title, message, type = "info") {
+    const toast = document.createElement("div");
     
-    escapeHtml: (str) => {
-      if (!str) return '';
-      return str.replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#039;');
-    },
-
-    formatDate: (isoString) => {
-      if (!isoString) return 'Unknown Date';
-      const date = new Date(isoString);
-      return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
-    },
-
-    debounce: (func, delay) => {
-      let timeoutId;
-      return function (...args) {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => func.apply(this, args), delay);
-      };
-    }
-  };
-
-  // =========================================================================
-  // 3. TOAST NOTIFICATION ENGINE
-  // =========================================================================
-  class NotificationManager {
-    constructor() {
-      this.container = null;
-      this.init();
+    // Choose icons based on classification parameters
+    let iconClass = "fa-info-circle text-brand-blue";
+    let borderClass = "border-brand-blue/30";
+    let bgGlow = "shadow-brand-blue/10";
+    
+    if (type === "success") {
+      iconClass = "fa-check-circle text-emerald-400";
+      borderClass = "border-emerald-500/20";
+      bgGlow = "shadow-emerald-500/5";
+    } else if (type === "warning") {
+      iconClass = "fa-exclamation-triangle text-amber-500";
+      borderClass = "border-amber-500/20";
+      bgGlow = "shadow-amber-500/5";
+    } else if (type === "error") {
+      iconClass = "fa-triangle-exclamation text-rose-500";
+      borderClass = "border-rose-500/20";
+      bgGlow = "shadow-rose-500/5";
     }
 
-    init() {
-      let el = document.getElementById('ak-toast-container');
-      if (!el) {
-        el = document.createElement('div');
-        el.id = 'ak-toast-container';
-        el.className = 'fixed bottom-5 right-5 z-[9999] flex flex-col gap-3 max-w-sm w-full px-4 sm:px-0';
-        document.body.appendChild(el);
+    toast.className = `glass-panel rounded-2xl p-4 border ${borderClass} shadow-2xl ${bgGlow} flex items-center gap-3.5 transform translate-y-4 opacity-0 transition-all duration-300 animate-slide`;
+    toast.innerHTML = `
+      <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
+        <i class="fa-solid ${iconClass} text-base"></i>
+      </div>
+      <div class="flex-grow">
+        <h5 class="font-bold text-xs text-white font-display">${title}</h5>
+        <p class="text-slate-400 text-[11px] mt-0.5 leading-tight">${message}</p>
+      </div>
+    `;
+
+    this.container.appendChild(toast);
+
+    // Trigger Entrance transitions
+    setTimeout(() => {
+      toast.classList.remove("translate-y-4", "opacity-0");
+    }, 10);
+
+    // Auto dismiss after 4 seconds
+    setTimeout(() => {
+      toast.classList.add("translate-y-4", "opacity-0");
+      setTimeout(() => toast.remove(), 300);
+    }, 4000);
+  }
+}
+
+const Toasts = new ToastNotificationManager();
+
+// =============================================================================
+// 2. MODAL & PREFERENCES CONFIG MANAGERS
+// =============================================================================
+class ModalController {
+  constructor() {
+    this.activeModal = null;
+  }
+
+  open(modalId) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+
+    modal.classList.remove("opacity-0", "pointer-events-none");
+    const container = modal.firstElementChild;
+    if (container) {
+      container.classList.remove("scale-95");
+      container.classList.add("scale-100");
+    }
+    this.activeModal = modal;
+    
+    // Accessibility focus setups
+    modal.setAttribute("aria-hidden", "false");
+    const firstInput = container.querySelector("input, select, textarea");
+    if (firstInput) setTimeout(() => firstInput.focus(), 150);
+  }
+
+  close(modalId) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+
+    modal.classList.add("opacity-0", "pointer-events-none");
+    const container = modal.firstElementChild;
+    if (container) {
+      container.classList.remove("scale-100");
+      container.classList.add("scale-95");
+    }
+    modal.setAttribute("aria-hidden", "true");
+    if (this.activeModal === modal) this.activeModal = null;
+  }
+
+  closeAll() {
+    const modals = document.querySelectorAll('div[role="dialog"]');
+    modals.forEach(modal => {
+      modal.classList.add("opacity-0", "pointer-events-none");
+      const container = modal.firstElementChild;
+      if (container) {
+        container.classList.remove("scale-100");
+        container.classList.add("scale-95");
       }
-      this.container = el;
+      modal.setAttribute("aria-hidden", "true");
+    });
+    this.activeModal = null;
+  }
+}
+
+const Modals = new ModalController();
+
+// =============================================================================
+// 3. SECURE LOCAL STORAGE DATA MANAGERS
+// =============================================================================
+class StorageManager {
+  static saveState() {
+    try {
+      localStorage.setItem(CONFIG.STORAGE_KEYS.ANIME, JSON.stringify(State.animeList));
+      localStorage.setItem(CONFIG.STORAGE_KEYS.SETTINGS, JSON.stringify(State.settings));
+      localStorage.setItem(CONFIG.STORAGE_KEYS.RECENT_SEARCH, JSON.stringify(State.recentSearches));
+      Logger.info("Persisted state variables successfully committed to Storage.");
+    } catch (e) {
+      Logger.error("Error writing metrics state to localStorage:", e);
+      Toasts.show("Save Interrupted", "Browser storage is full or has disabled caching.", "error");
+    }
+  }
+
+  static restoreState() {
+    try {
+      const savedAnime = localStorage.getItem(CONFIG.STORAGE_KEYS.ANIME);
+      const savedSettings = localStorage.getItem(CONFIG.STORAGE_KEYS.SETTINGS);
+      const savedSearch = localStorage.getItem(CONFIG.STORAGE_KEYS.RECENT_SEARCH);
+
+      if (savedAnime) State.animeList = JSON.parse(savedAnime);
+      if (savedSettings) State.settings = JSON.parse(savedSettings);
+      if (savedSearch) State.recentSearches = JSON.parse(savedSearch);
+
+      Logger.info("System state fully rehydrated from browser sandbox.");
+    } catch (e) {
+      Logger.error("Failed to parse local stored variables:", e);
+      Toasts.show("Restoration Failure", "Corrupted offline datasets were detected and reset.", "warning");
+    }
+  }
+
+  static wipeAllData() {
+    localStorage.removeItem(CONFIG.STORAGE_KEYS.ANIME);
+    localStorage.removeItem(CONFIG.STORAGE_KEYS.SETTINGS);
+    localStorage.removeItem(CONFIG.STORAGE_KEYS.RECENT_SEARCH);
+    State.animeList = [];
+    State.settings = { amoledMode: true, darkTheme: true, animationsFluid: true };
+    State.recentSearches = [];
+    this.saveState();
+  }
+}
+
+// =============================================================================
+// 4. JIKAN REST API CONNECTOR
+// =============================================================================
+class JikanAPIService {
+  static async searchAnime(query, filters = {}) {
+    if (State.isOffline) {
+      Logger.warn("Network request blocked: Client is offline.");
+      throw new Error("OFFLINE");
     }
 
-    show(message, type = 'info', duration = 4000) {
-      const id = Utils.uuid();
-      const toast = document.createElement('div');
-      toast.id = id;
-      
-      let themeClasses = '';
-      let icon = '';
-      
-      switch (type) {
-        case 'success':
-          themeClasses = 'bg-emerald-500 text-white shadow-emerald-500/10';
-          icon = 'fa-circle-check';
-          break;
-        case 'error':
-          themeClasses = 'bg-rose-500 text-white shadow-rose-500/10';
-          icon = 'fa-circle-xmark';
-          break;
-        case 'warning':
-          themeClasses = 'bg-amber-500 text-white shadow-amber-500/10';
-          icon = 'fa-triangle-exclamation';
-          break;
-        case 'info':
-        default:
-          themeClasses = 'bg-brand-600 text-white shadow-brand-500/10';
-          icon = 'fa-circle-info';
-          break;
-      }
+    let url = `${CONFIG.JIKAN_API_BASE}/anime?q=${encodeURIComponent(query)}&limit=8`;
 
-      toast.className = `transform translate-y-4 opacity-0 transition-all duration-300 ease-out flex items-center justify-between p-4 rounded-xl shadow-xl ${themeClasses}`;
-      toast.innerHTML = `
-        <div class="flex items-center gap-3">
-          <i class="fa-solid ${icon} text-lg"></i>
-          <p class="font-medium text-sm leading-snug">${Utils.escapeHtml(message)}</p>
+    // Append filter query params if configured
+    if (filters.status && filters.status !== "ALL") {
+      url += `&status=${filters.status.toLowerCase()}`;
+    }
+    if (filters.score && filters.score !== "ALL") {
+      url += `&min_score=${filters.score}`;
+    }
+
+    try {
+      const response = await fetch(url);
+      if (response.status === 429) {
+        throw new Error("RATE_LIMIT");
+      }
+      if (!response.ok) {
+        throw new Error(`HTTP_${response.status}`);
+      }
+      const result = await response.json();
+      return result.data || [];
+    } catch (err) {
+      Logger.error("API Call error:", err);
+      throw err;
+    }
+  }
+
+  static async fetchSeasonalSpotlight() {
+    if (State.isOffline) return null;
+    try {
+      const res = await fetch(`${CONFIG.JIKAN_API_BASE}/seasons/now?limit=1`);
+      if (res.ok) {
+        const payload = await res.json();
+        return payload.data?.[0] || null;
+      }
+    } catch (e) {
+      Logger.warn("Spotlight prefetch error:", e);
+    }
+    return null;
+  }
+}
+
+// =============================================================================
+// 5. THE GRAPHICAL RENDERING ENGINE (DOM LAYOUT UPDATER)
+// =============================================================================
+class DOMRenderer {
+  static initModalsForms() {
+    // 1. Programmatically Inject Add Anime Modal Forms
+    const addModal = document.getElementById("addAnimeModal");
+    if (addModal) {
+      addModal.innerHTML = `
+        <div class="w-full max-w-lg rounded-3xl border border-white/10 bg-[#07070e] p-6 shadow-2xl transform scale-95 transition-transform duration-300">
+          <div class="flex justify-between items-center border-b border-white/5 pb-4 mb-4">
+            <h3 id="add-modal-title" class="font-display font-extrabold text-lg text-white">Add Anime To Keep</h3>
+            <button class="modal-close-trigger w-8 h-8 rounded-lg hover:bg-white/5 flex items-center justify-center text-slate-400 hover:text-white transition-colors">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+          <form id="addAnimeForm" class="flex flex-col gap-4">
+            <div class="flex flex-col gap-1.5">
+              <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Anime Name</label>
+              <input type="text" id="add_name" required class="w-full px-4 py-3 bg-[#020205] border border-white/5 rounded-xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-brand-blue/50 focus:ring-1 focus:ring-brand-blue/30 transition-all" placeholder="Enter title name...">
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Keep Category</label>
+                <select id="add_category" class="w-full px-4 py-3 bg-[#020205] border border-white/5 rounded-xl text-sm text-slate-300 focus:outline-none focus:border-brand-blue/50 cursor-pointer">
+                  <option value="Watching">📺 Ongoing Anime</option>
+                  <option value="Waiting">⏳ Waiting</option>
+                  <option value="Completed">✅ Completed</option>
+                  <option value="Dropped">❌ Dropped</option>
+                  <option value="Suggestions">✨ Suggestions</option>
+                </select>
+              </div>
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Episodes Watched</label>
+                <input type="number" id="add_episodes" min="0" value="0" class="w-full px-4 py-3 bg-[#020205] border border-white/5 rounded-xl text-sm text-slate-100 focus:outline-none focus:border-brand-blue/50 focus:ring-1 focus:ring-brand-blue/30 transition-all">
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Rating Score (1-10)</label>
+                <input type="number" id="add_rating" min="0" max="10" step="0.5" class="w-full px-4 py-3 bg-[#020205] border border-white/5 rounded-xl text-sm text-slate-100 focus:outline-none focus:border-brand-blue/50 focus:ring-1 focus:ring-brand-blue/30 transition-all" placeholder="Optional rating...">
+              </div>
+              <div class="flex flex-col gap-1.5 justify-center pt-4 sm:pt-0">
+                <label class="flex items-center gap-2.5 cursor-pointer text-slate-300 select-none">
+                  <input type="checkbox" id="add_favorite" class="w-4 h-4 rounded text-brand-blue bg-[#020205] border-white/5 focus:ring-0">
+                  <span class="text-xs font-bold uppercase tracking-wider">Pin to Favorites</span>
+                </label>
+              </div>
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Personal Notes</label>
+              <textarea id="add_notes" rows="3" class="w-full px-4 py-3 bg-[#020205] border border-white/5 rounded-xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-brand-blue/50 focus:ring-1 focus:ring-brand-blue/30 transition-all resize-none" placeholder="Write thoughts or notes here..."></textarea>
+            </div>
+            <div class="flex items-center justify-end gap-3 mt-4 pt-4 border-t border-white/5">
+              <button type="button" class="modal-close-trigger px-5 py-2.5 rounded-xl hover:bg-white/5 font-semibold text-xs text-slate-400 hover:text-white transition-all">Cancel</button>
+              <button type="submit" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-blue to-brand-purple hover:opacity-90 font-bold text-xs text-white shadow-lg active:scale-95 transition-all">Save To Keep</button>
+            </div>
+          </form>
         </div>
-        <button class="ml-4 opacity-70 hover:opacity-100 transition-opacity" onclick="this.parentElement.remove()">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
       `;
-
-      this.container.appendChild(toast);
-
-      // Trigger Animation Frame
-      requestAnimationFrame(() => {
-        toast.classList.remove('translate-y-4', 'opacity-0');
-      });
-
-      // Automated Destruction sequence
-      setTimeout(() => {
-        toast.classList.add('translate-y-[-10px]', 'opacity-0');
-        setTimeout(() => toast.remove(), 300);
-      }, duration);
-    }
-  }
-
-  // =========================================================================
-  // 4. PERSISTENT STORAGE CONTROLLER
-  // =========================================================================
-  class StorageManager {
-    constructor() {
-      this.storageKey = 'anime_keep_store_v2';
     }
 
-    getDefaultState() {
-      return {
-        anime: [
-          {
-            id: 'ak-default-1',
-            title: "Frieren: Beyond Journey's End",
-            category: 'Watching',
-            episodesWatched: 12,
-            episodesTotal: 28,
-            rating: 10,
-            notes: "An emotional adventure with breathtaking artwork and score. Captures the slow beauty of passage of time perfectly.",
-            isFavorite: true,
-            genres: ['Fantasy', 'Adventure', 'Drama'],
-            image: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=300&auto=format&fit=crop&q=60', // Mock representation placeholder
-            status: 'Currently Airing',
-            createdAt: new Date().toISOString()
-          },
-          {
-            id: 'ak-default-2',
-            title: "Attack on Titan",
-            category: 'Completed',
-            episodesWatched: 87,
-            episodesTotal: 87,
-            rating: 9,
-            notes: "One of the greatest modern epics. Incredible geopolitical plotting and superb action sequences.",
-            isFavorite: true,
-            genres: ['Action', 'Drama', 'Suspense'],
-            image: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=300&auto=format&fit=crop&q=60',
-            status: 'Finished Airing',
-            createdAt: new Date(Date.now() - 604800000).toISOString()
-          }
-        ],
-        categories: ['Watching', 'Completed', 'Dropped', 'Waiting', 'Suggestions'],
-        recentSearches: [],
-        settings: {
-          theme: 'dark', // 'light' or 'dark'
-          amoled: false,
-          animations: true
-        }
-      };
+    // 2. Programmatically Inject Edit Anime Modal Forms
+    const editModal = document.getElementById("editAnimeModal");
+    if (editModal) {
+      editModal.innerHTML = `
+        <div class="w-full max-w-lg rounded-3xl border border-white/10 bg-[#07070e] p-6 shadow-2xl transform scale-95 transition-transform duration-300">
+          <div class="flex justify-between items-center border-b border-white/5 pb-4 mb-4">
+            <h3 id="edit-modal-title" class="font-display font-extrabold text-lg text-white">Edit Library Item</h3>
+            <button class="modal-close-trigger w-8 h-8 rounded-lg hover:bg-white/5 flex items-center justify-center text-slate-400 hover:text-white transition-colors">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+          <form id="editAnimeForm" class="flex flex-col gap-4">
+            <div class="flex flex-col gap-1.5">
+              <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Anime Name</label>
+              <input type="text" id="edit_name" required class="w-full px-4 py-3 bg-[#020205] border border-white/5 rounded-xl text-sm text-slate-100 focus:outline-none focus:border-brand-blue/50 focus:ring-1 focus:ring-brand-blue/30 transition-all">
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Keep Category</label>
+                <select id="edit_category" class="w-full px-4 py-3 bg-[#020205] border border-white/5 rounded-xl text-sm text-slate-300 focus:outline-none focus:border-brand-blue/50 cursor-pointer">
+                  <option value="Watching">📺 Ongoing Anime</option>
+                  <option value="Waiting">⏳ Waiting</option>
+                  <option value="Completed">✅ Completed</option>
+                  <option value="Dropped">❌ Dropped</option>
+                  <option value="Suggestions">✨ Suggestions</option>
+                </select>
+              </div>
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Episodes Watched</label>
+                <input type="number" id="edit_episodes" min="0" class="w-full px-4 py-3 bg-[#020205] border border-white/5 rounded-xl text-sm text-slate-100 focus:outline-none focus:border-brand-blue/50 focus:ring-1 focus:ring-brand-blue/30 transition-all">
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Rating Score (1-10)</label>
+                <input type="number" id="edit_rating" min="0" max="10" step="0.5" class="w-full px-4 py-3 bg-[#020205] border border-white/5 rounded-xl text-sm text-slate-100 focus:outline-none focus:border-brand-blue/50 focus:ring-1 focus:ring-brand-blue/30 transition-all">
+              </div>
+              <div class="flex flex-col gap-1.5 justify-center pt-4 sm:pt-0">
+                <label class="flex items-center gap-2.5 cursor-pointer text-slate-300 select-none">
+                  <input type="checkbox" id="edit_favorite" class="w-4 h-4 rounded text-brand-blue bg-[#020205] border-white/5 focus:ring-0">
+                  <span class="text-xs font-bold uppercase tracking-wider">Pin to Favorites</span>
+                </label>
+              </div>
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Personal Notes</label>
+              <textarea id="edit_notes" rows="3" class="w-full px-4 py-3 bg-[#020205] border border-white/5 rounded-xl text-sm text-slate-100 focus:outline-none focus:border-brand-blue/50 focus:ring-1 focus:ring-brand-blue/30 transition-all resize-none"></textarea>
+            </div>
+            <div class="flex items-center justify-end gap-3 mt-4 pt-4 border-t border-white/5">
+              <button type="button" class="modal-close-trigger px-5 py-2.5 rounded-xl hover:bg-white/5 font-semibold text-xs text-slate-400 hover:text-white transition-all">Cancel</button>
+              <button type="submit" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-blue to-brand-purple hover:opacity-90 font-bold text-xs text-white shadow-lg active:scale-95 transition-all">Save Changes</button>
+            </div>
+          </form>
+        </div>
+      `;
     }
 
-    load() {
-      try {
-        const payload = localStorage.getItem(this.storageKey);
-        if (!payload) {
-          const fallback = this.getDefaultState();
-          this.save(fallback);
-          return fallback;
-        }
-        const state = JSON.parse(payload);
-        // Ensure properties exist on migration
-        if (!state.anime) state.anime = [];
-        if (!state.categories) state.categories = ['Watching', 'Completed', 'Dropped', 'Waiting', 'Suggestions'];
-        if (!state.recentSearches) state.recentSearches = [];
-        if (!state.settings) state.settings = { theme: 'dark', amoled: false, animations: true };
-        return state;
-      } catch (err) {
-        console.error('Failed to parse local storage payload', err);
-        return this.getDefaultState();
-      }
-    }
-
-    save(state) {
-      try {
-        localStorage.setItem(this.storageKey, JSON.stringify(state));
-        return true;
-      } catch (err) {
-        console.error('Local storage state persistence failed', err);
-        return false;
-      }
-    }
-
-    reset() {
-      try {
-        localStorage.removeItem(this.storageKey);
-        return true;
-      } catch (err) {
-        return false;
-      }
-    }
-  }
-
-  // =========================================================================
-  // 5. JIKAN V4 SEARCH INTERACTION GATEWAY (API MODEL)
-  // =========================================================================
-  class JikanGateway {
-    constructor(notifManager) {
-      this.baseUrl = 'https://api.jikan.moe/v4';
-      this.notifier = notifManager;
-      this.searchCache = new Map(); // Keep requests cached during single execution
-    }
-
-    async searchAnime(query, filters = {}) {
-      if (!navigator.onLine) {
-        this.notifier.show('You are currently offline. Jikan Search is unavailable.', 'warning');
-        return { error: 'Offline Mode active', results: [] };
-      }
-
-      // Build Query String Parameters
-      let endpoint = `${this.baseUrl}/anime?q=${encodeURIComponent(query)}&sfw=true&limit=15`;
-      
-      // Append Advanced API Search Params
-      if (filters.status) endpoint += `&status=${filters.status}`;
-      if (filters.type) endpoint += `&type=${filters.type}`;
-      if (filters.score) endpoint += `&min_score=${filters.score}`;
-      
-      // Cache hits checker
-      if (this.searchCache.has(endpoint)) {
-        return this.searchCache.get(endpoint);
-      }
-
-      try {
-        const response = await this.fetchWithRetry(endpoint);
-        if (!response.ok) {
-          if (response.status === 429) {
-            this.notifier.show('Jikan rate limit hit. Slow down!', 'warning');
-            throw new Error('Jikan API 429 Too Many Requests');
-          }
-          throw new Error(`Jikan API Error: Server responded with status ${response.status}`);
-        }
-
-        const payload = await response.json();
-        const results = (payload.data || []).map(item => ({
-          malId: item.mal_id,
-          title: item.title_english || item.title || 'Untitled',
-          originalTitle: item.title,
-          image: item.images?.jpg?.image_url || item.images?.webp?.image_url || '',
-          episodesTotal: item.episodes || 0,
-          status: item.status || 'Unknown',
-          score: item.score || 0,
-          genres: (item.genres || []).map(g => g.name),
-          synopsis: item.synopsis || 'No summary available.',
-          year: item.year || item.aired?.prop?.from?.year || 'Unknown',
-          season: item.season || 'Unknown'
-        }));
-
-        this.searchCache.set(endpoint, results);
-        return results;
-      } catch (err) {
-        console.error('Jikan API Query Failed', err);
-        return [];
-      }
-    }
-
-    // Dynamic Retrying with Exponential Backoff
-    async fetchWithRetry(url, retries = 3, delay = 1000) {
-      try {
-        const response = await fetch(url);
-        if (response.status === 429 && retries > 0) {
-          await new Promise(res => setTimeout(res, delay));
-          return this.fetchWithRetry(url, retries - 1, delay * 2);
-        }
-        return response;
-      } catch (err) {
-        if (retries > 0) {
-          await new Promise(res => setTimeout(res, delay));
-          return this.fetchWithRetry(url, retries - 1, delay * 2);
-        }
-        throw err;
-      }
-    }
-  }
-
-  // =========================================================================
-  // 6. MAIN APPLICATION MODULE ARCHITECTURE
-  // =========================================================================
-  class AnimeKeepApp {
-    constructor() {
-      this.notifier = new NotificationManager();
-      this.storage = new StorageManager();
-      this.jikan = new JikanGateway(this.notifier);
-      
-      this.state = this.storage.load();
-      
-      // UI Session Control States
-      this.activeTab = 'dashboard';
-      this.dashboardCategory = 'All'; // "All" or explicit Tracking Category
-      this.dashboardSearchQuery = '';
-      this.discoverQuery = '';
-      this.discoverFilters = {
-        status: '',
-        type: '',
-        score: '',
-      };
-      
-      this.selectedEditAnime = null;
-      this.selectedDeleteAnimeId = null;
-
-      // Ensure system preferences are handled
-      this.applyThemeSettings();
-    }
-
-    init() {
-      injectDependencies();
-      
-      // Inject root application structure dynamically
-      this.renderAppShell();
-      
-      // Mount Application Interactive Handlers
-      this.bindDOMEvents();
-      this.bindShortcuts();
-      
-      // Trigger Initial Dynamic View Rendering
-      this.renderActiveView();
-      this.renderStatsDashboard();
-
-      this.notifier.show('Anime.Keep initialized successfully!', 'success');
-      
-      // Setup network connectivity indicators
-      window.addEventListener('online', () => {
-        this.notifier.show('Internet connection restored. Discovery enabled.', 'info');
-        this.updateNetworkBadge(true);
-      });
-      window.addEventListener('offline', () => {
-        this.notifier.show('You are offline. Trackers remain operational, Discovery disabled.', 'warning');
-        this.updateNetworkBadge(false);
-      });
-      this.updateNetworkBadge(navigator.onLine);
-    }
-
-    // =========================================================================
-    // THEME & VIEW ADJUSTMENT ENGINE
-    // =========================================================================
-    applyThemeSettings() {
-      const root = document.documentElement;
-      const settings = this.state.settings;
-
-      // Handle CSS transition suppression
-      if (!settings.animations) {
-        root.classList.add('no-transitions');
-      } else {
-        root.classList.remove('no-transitions');
-      }
-
-      // Handle Themes
-      if (settings.theme === 'dark') {
-        root.classList.add('dark');
-        if (settings.amoled) {
-          root.classList.add('amoled');
-          document.body.classList.add('amoled-bg');
-        } else {
-          root.classList.remove('amoled');
-          document.body.classList.remove('amoled-bg');
-        }
-      } else {
-        root.classList.remove('dark', 'amoled');
-        document.body.classList.remove('amoled-bg');
-      }
-    }
-
-    updateNetworkBadge(isOnline) {
-      const badge = document.getElementById('ak-network-badge');
-      if (badge) {
-        if (isOnline) {
-          badge.className = "flex items-center gap-2 px-3 py-1 text-xs rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20";
-          badge.innerHTML = `<span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span> Online`;
-        } else {
-          badge.className = "flex items-center gap-2 px-3 py-1 text-xs rounded-full bg-rose-500/10 text-rose-500 border border-rose-500/20";
-          badge.innerHTML = `<span class="h-2 w-2 rounded-full bg-rose-500"></span> Offline`;
-        }
-      }
-    }
-
-    // =========================================================================
-    // PRIMARY STRUCTURAL CODE (DOM INJECTION)
-    // =========================================================================
-    renderAppShell() {
-      // Clean and inject structural markup
-      document.body.innerHTML = `
-        <div class="min-h-screen bg-slate-50 dark:bg-slate-900 amoled:bg-black text-slate-800 dark:text-slate-100 flex flex-col md:flex-row font-sans transition-colors duration-300">
-          
-          <!-- MOBILE NAVIGATION HEADER -->
-          <header class="md:hidden flex items-center justify-between px-6 py-4 bg-white dark:bg-slate-950 amoled:bg-zinc-950 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40">
-            <div class="flex items-center gap-2">
-              <div class="bg-brand-600 text-white h-9 w-9 rounded-xl flex items-center justify-center shadow-lg shadow
+    // 3. Programmatically Inject Delete Confirmation Modal Forms
+    const delModal = document.getElementById("deleteConfirmModal");
+    if (delModal) {
+      delModal.innerHTML = `
+        <div class="w-full max-w-sm rounded-3xl border border-white/10 bg-[#07070e] p-6 shadow-2xl transform scale-95 transition-transform duration-300">
+          <div class="flex justify-between items-center border-b border-white/5 pb-4 mb-4">
+            <h3 id="delete-modal-title" class="font-display font-extrabold text-base text-white">Confirm Removal</h3>
+            <button class="modal-close-trigger w-8 h-8 rounded-lg hover:bg-white/5 flex items-center justify-center text-slate-400 hover:text-white transition-colors">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+          <div class="flex flex-col gap-4 mt-2">
+            <p class="text-sm text-slate-400 leading-relaxed">Are you absolutely sure you want to delete <b class="text-white" id="delete_target_title">this item</b> permanently from your Keep library?</p>
+            <div class="flex items-center justify-end gap-3 pt-4 border-t border-white/5">
+              <button type="button" class="modal-clo
