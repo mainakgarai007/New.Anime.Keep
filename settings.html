@@ -1,0 +1,354 @@
+```html
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anime.Keep - Settings & Personalization</title>
+
+  <!-- Fallback External Resource Links -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="app.css">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Free Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts (Inter) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            amoled: '#020205',
+            glass: 'rgba(10, 10, 18, 0.45)',
+            'glass-border': 'rgba(255, 255, 255, 0.08)',
+            'glow-blue': 'rgba(59, 130, 246, 0.15)',
+            'glow-purple': 'rgba(147, 51, 234, 0.15)',
+            brand: {
+              blue: '#3b82f6',
+              purple: '#a855f7',
+              cyan: '#06b6d4',
+              pink: '#ec4899',
+              amber: '#f59e0b',
+              emerald: '#10b981'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Global Root Accent Variables (Changeable dynamically) */
+    :root {
+      --brand-accent: #3b82f6;
+      --brand-accent-glow: rgba(59, 130, 246, 0.25);
+      --font-multiplier: 100%;
+    }
+
+    html {
+      font-size: var(--font-multiplier);
+    }
+
+    /* Custom AMOLED Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #020205;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #111024;
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--brand-accent);
+    }
+
+    /* Ambient Backdrop Glows */
+    .glow-radial-blue {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, var(--brand-accent-glow) 0%, rgba(0, 0, 0, 0) 70%);
+      top: -200px;
+      left: -200px;
+      z-index: 0;
+      pointer-events: none;
+      filter: blur(50px);
+    }
+
+    .glow-radial-purple {
+      position: absolute;
+      width: 650px;
+      height: 650px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, rgba(0, 0, 0, 0) 70%);
+      bottom: -150px;
+      right: -250px;
+      z-index: 0;
+      pointer-events: none;
+      filter: blur(60px);
+    }
+
+    /* Glassmorphism Styles */
+    .glass-panel {
+      background: rgba(10, 10, 18, 0.55);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .glass-card {
+      background: rgba(15, 15, 27, 0.45);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .glass-card:hover {
+      transform: translateY(-2px);
+      background: rgba(20, 20, 35, 0.75);
+      border-color: var(--brand-accent);
+      box-shadow: 0 15px 35px -10px var(--brand-accent-glow);
+    }
+
+    /* Accent color dynamic mapping elements */
+    .bg-dynamic-accent {
+      background-color: var(--brand-accent);
+    }
+    .text-dynamic-accent {
+      color: var(--brand-accent);
+    }
+    .border-dynamic-accent {
+      border-color: var(--brand-accent);
+    }
+    .shadow-dynamic-glow {
+      box-shadow: 0 4px 20px -2px var(--brand-accent-glow);
+    }
+
+    /* Core settings toggle switches alignment */
+    .switch-checkbox:checked + .switch-label {
+      background-color: var(--brand-accent);
+    }
+    .switch-checkbox:checked + .switch-label::after {
+      transform: translateX(20px);
+    }
+  </style>
+</head>
+<body class="bg-amoled text-slate-100 min-h-screen font-sans relative overflow-x-hidden selection:bg-brand-blue/30 selection:text-white">
+
+  <!-- Ambient Backdrop Glow Filters -->
+  <div class="glow-radial-blue"></div>
+  <div class="glow-radial-purple"></div>
+
+  <!-- Main Scaffolding Container -->
+  <div class="relative z-10 flex flex-col min-h-screen">
+
+    <!-- STICKY TOP NAVIGATION BAR -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-white/5 shadow-lg">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
+        
+        <!-- Left: Logo & Back Button -->
+        <div class="flex items-center gap-3 sm:gap-4">
+          <button onclick="navigateBack()" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center hover:bg-white/10 active:scale-95 transition-all text-slate-300" title="Go Back">
+            <i class="fa-solid fa-arrow-left text-sm sm:text-base"></i>
+          </button>
+          
+          <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='schedule.html'">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-blue to-brand-purple flex items-center justify-center shadow-lg shadow-brand-blue/30">
+              <i class="fa-solid fa-bolt text-white text-sm"></i>
+            </div>
+            <span class="font-extrabold text-lg sm:text-xl tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent">
+              Anime.<span class="bg-gradient-to-r from-brand-blue to-brand-cyan bg-clip-text text-transparent">Keep</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Right Quick Control Actions -->
+        <div class="flex items-center gap-2">
+          <button onclick="executeTotalBackupExport()" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center hover:bg-white/10 active:scale-95 transition-all text-slate-300" title="Quick Export Backup">
+            <i class="fa-solid fa-file-export"></i>
+          </button>
+          <button onclick="window.location.href='profile.html'" class="px-4 h-10 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 font-bold text-xs transition-all active:scale-95 shadow-md flex items-center gap-1.5">
+            <i class="fa-solid fa-user-gear"></i>
+            <span class="hidden sm:inline">My Profile</span>
+          </button>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- MAIN CORE PANEL WRAPPER -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- SIDEBAR DIRECTORY (LEFT ROW) -->
+        <aside class="lg:col-span-4 glass-panel rounded-2xl p-4 sm:p-5 border border-white/5 flex flex-col gap-1 z-25 sticky top-24">
+          <h3 class="text-xs font-black text-slate-500 uppercase tracking-widest px-3 mb-3">Settings Directory</h3>
+          
+          <a href="#appearance-section" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 text-slate-300 hover:text-white font-semibold text-sm transition-all border border-transparent hover:border-white/5 group">
+            <i class="fa-solid fa-wand-magic-sparkles text-dynamic-accent text-sm group-hover:scale-110 transition-transform"></i>
+            <span>Appearance & Themes</span>
+          </a>
+          <a href="#notifications-section" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 text-slate-300 hover:text-white font-semibold text-sm transition-all border border-transparent hover:border-white/5 group">
+            <i class="fa-solid fa-bell text-brand-purple text-sm group-hover:scale-110 transition-transform"></i>
+            <span>Notifications & Alerts</span>
+          </a>
+          <a href="#privacy-section" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 text-slate-300 hover:text-white font-semibold text-sm transition-all border border-transparent hover:border-white/5 group">
+            <i class="fa-solid fa-shield-halved text-brand-cyan text-sm group-hover:scale-110 transition-transform"></i>
+            <span>Privacy & Safety</span>
+          </a>
+          <a href="#offline-section" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 text-slate-300 hover:text-white font-semibold text-sm transition-all border border-transparent hover:border-white/5 group">
+            <i class="fa-solid fa-cloud-arrow-down text-brand-pink text-sm group-hover:scale-110 transition-transform"></i>
+            <span>Offline Sync & Backups</span>
+          </a>
+          <a href="#performance-section" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 text-slate-300 hover:text-white font-semibold text-sm transition-all border border-transparent hover:border-white/5 group">
+            <i class="fa-solid fa-gauge-high text-brand-emerald text-sm group-hover:scale-110 transition-transform"></i>
+            <span>Performance & Engine</span>
+          </a>
+          <a href="#developer-section" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 text-slate-300 hover:text-white font-semibold text-sm transition-all border border-transparent hover:border-white/5 group">
+            <i class="fa-solid fa-code text-brand-amber text-sm group-hover:scale-110 transition-transform"></i>
+            <span>Developer Sandbox</span>
+          </a>
+          <a href="#about-section" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 text-slate-300 hover:text-white font-semibold text-sm transition-all border border-transparent hover:border-white/5 group">
+            <i class="fa-solid fa-circle-info text-slate-400 text-sm group-hover:scale-110 transition-transform"></i>
+            <span>About Anime.Keep</span>
+          </a>
+        </aside>
+
+        <!-- MAIN WORKSPACE DETAILS CARD (RIGHT ROW) -->
+        <div class="lg:col-span-8 flex flex-col gap-8">
+          
+          <!-- SECTION 1: APPEARANCE & PERSONALIZATION -->
+          <section id="appearance-section" class="glass-panel rounded-3xl p-6 sm:p-8 border border-white/5 flex flex-col gap-6">
+            <h3 class="text-base sm:text-lg font-black text-white flex items-center gap-2 border-b border-white/5 pb-4">
+              <i class="fa-solid fa-wand-magic-sparkles text-dynamic-accent"></i>
+              <span>Appearance & Personalization</span>
+            </h3>
+
+            <!-- Theme select segments -->
+            <div class="flex flex-col gap-3">
+              <label class="block text-xs font-black text-slate-400 uppercase tracking-widest">Active Visual Skin</label>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <button onclick="setGlobalThemePreset('AMOLED')" id="theme-btn-amoled" class="px-4 py-3.5 rounded-xl border border-dynamic-accent bg-white/5 font-black text-xs text-white transition-all shadow-dynamic-glow">
+                  AMOLED Black
+                </button>
+                <button onclick="setGlobalThemePreset('SPACE')" id="theme-btn-space" class="px-4 py-3.5 rounded-xl border border-white/5 bg-transparent hover:bg-white/5 font-semibold text-xs text-slate-400 hover:text-white transition-all">
+                  Deep Space Blue
+                </button>
+                <button onclick="setGlobalThemePreset('LIGHT')" id="theme-btn-light" class="px-4 py-3.5 rounded-xl border border-white/5 bg-transparent hover:bg-white/5 font-semibold text-xs text-slate-400 hover:text-white transition-all">
+                  Clean Light
+                </button>
+                <button onclick="setGlobalThemePreset('SYSTEM')" id="theme-btn-system" class="px-4 py-3.5 rounded-xl border border-white/5 bg-transparent hover:bg-white/5 font-semibold text-xs text-slate-400 hover:text-white transition-all">
+                  Auto System
+                </button>
+              </div>
+            </div>
+
+            <!-- Accent color picker grid -->
+            <div class="flex flex-col gap-3">
+              <label class="block text-xs font-black text-slate-400 uppercase tracking-widest">Global Accent Palette</label>
+              <div class="flex flex-wrap gap-3">
+                <button onclick="updateAccentColorVariables('#3b82f6', 'rgba(59, 130, 246, 0.25)')" class="w-9 h-9 rounded-full bg-[#3b82f6] border-2 border-white/20 active:scale-90 transition-transform shadow-lg hover:rotate-12" title="Brand Blue"></button>
+                <button onclick="updateAccentColorVariables('#a855f7', 'rgba(168, 85, 247, 0.25)')" class="w-9 h-9 rounded-full bg-[#a855f7] border-2 border-transparent active:scale-90 transition-transform shadow-lg hover:rotate-12" title="Mystical Purple"></button>
+                <button onclick="updateAccentColorVariables('#06b6d4', 'rgba(6, 182, 212, 0.25)')" class="w-9 h-9 rounded-full bg-[#06b6d4] border-2 border-transparent active:scale-90 transition-transform shadow-lg hover:rotate-12" title="Cyber Cyan"></button>
+                <button onclick="updateAccentColorVariables('#ec4899', 'rgba(236, 72, 153, 0.25)')" class="w-9 h-9 rounded-full bg-[#ec4899] border-2 border-transparent active:scale-90 transition-transform shadow-lg hover:rotate-12" title="Sakura Pink"></button>
+                <button onclick="updateAccentColorVariables('#f59e0b', 'rgba(245, 158, 11, 0.25)')" class="w-9 h-9 rounded-full bg-[#f59e0b] border-2 border-transparent active:scale-90 transition-transform shadow-lg hover:rotate-12" title="Sunset Amber"></button>
+                <button onclick="updateAccentColorVariables('#10b981', 'rgba(16, 185, 129, 0.25)')" class="w-9 h-9 rounded-full bg-[#10b981] border-2 border-transparent active:scale-90 transition-transform shadow-lg hover:rotate-12" title="Emerald Jade"></button>
+              </div>
+            </div>
+
+            <!-- Typography & Font size slider -->
+            <div class="flex flex-col gap-3">
+              <div class="flex justify-between items-baseline">
+                <label class="block text-xs font-black text-slate-400 uppercase tracking-widest">Interface Font Size</label>
+                <span id="font-size-label" class="text-xs font-bold text-dynamic-accent">Medium (100%)</span>
+              </div>
+              <input type="range" id="font-size-slider" min="80" max="120" step="10" value="100" class="w-full h-1 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-sky-500" oninput="changeRootFontSize(this.value)">
+              <div class="flex justify-between text-[10px] text-slate-500 font-bold">
+                <span>SMALL (80%)</span>
+                <span>REGULAR</span>
+                <span>LARGE (120%)</span>
+              </div>
+            </div>
+
+            <!-- Toggles for animations & language selector -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+              <div class="p-4 bg-amoled rounded-2xl border border-white/5 flex items-center justify-between">
+                <div>
+                  <span class="block text-xs font-bold text-slate-200">Fluid Transitions</span>
+                  <span class="text-[10px] text-slate-500">Accelerates page spring motion</span>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="pref-animations-chk" checked class="sr-only switch-checkbox">
+                  <span class="w-11 h-6 bg-slate-700 rounded-full transition-all switch-label relative after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all"></span>
+                </label>
+              </div>
+
+              <div class="p-4 bg-amoled rounded-2xl border border-white/5 flex items-center justify-between">
+                <div>
+                  <span class="block text-xs font-bold text-slate-200">System Language</span>
+                  <span class="text-[10px] text-slate-500">Affects database categories</span>
+                </div>
+                <select id="pref-language-select" class="px-2.5 py-1.5 bg-slate-900 border border-white/5 rounded-xl text-xs font-bold text-slate-300 focus:outline-none focus:border-dynamic-accent transition-colors cursor-pointer">
+                  <option value="en">English (US)</option>
+                  <option value="ja">日本語 (JP)</option>
+                  <option value="hi">हिन्दी (IN)</option>
+                  <option value="bn">বাংলা (BD)</option>
+                </select>
+              </div>
+            </div>
+          </section>
+
+          <!-- SECTION 2: NOTIFICATIONS & ALERTS -->
+          <section id="notifications-section" class="glass-panel rounded-3xl p-6 sm:p-8 border border-white/5 flex flex-col gap-6">
+            <h3 class="text-base sm:text-lg font-black text-white flex items-center gap-2 border-b border-b-white/5 pb-4">
+              <i class="fa-solid fa-bell text-brand-purple"></i>
+              <span>Notifications & Custom Alerts</span>
+            </h3>
+
+            <div class="flex flex-col gap-3.5">
+              <div class="flex items-center justify-between p-3.5 bg-amoled rounded-2xl border border-white/5">
+                <div>
+                  <span class="block text-xs font-bold text-slate-200">Pre-Release Warning alerts</span>
+                  <span class="text-[10px] text-slate-500">Triggers alert notifications 10 minutes prior to JST airings</span>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="alert-pre-release" checked class="sr-only switch-checkbox">
+                  <span class="w-11 h-6 bg-slate-700 rounded-full transition-all switch-label relative after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all"></span>
+                </label>
+              </div>
+
+              <div class="flex items-center justify-between p-3.5 bg-amoled rounded-2xl border border-white/5">
+                <div>
+                  <span class="block text-xs font-bold text-slate-200">Instant Release Notifications</span>
+                  <span class="text-[10px] text-slate-500">Alerts when new sub/dub episodes are parsed</span>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="alert-instant-release" checked class="sr-only switch-checkbox">
+                  <span class="w-11 h-6 bg-slate-700 rounded-full transition-all switch-label relative after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all"></span>
+                </label>
+              </div>
+
+              <div class="flex items-center justify-between p-3.5 bg-amoled rounded-2xl border border-white/5">
+                <div>
+                  <span class="block text-xs font-bold text-slate-200">Daily Digest Emails</span>
+                  <span class="text-[10px] text-slate-500">Summary reports of today's airing schedule</span>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="alert-digest" class="sr-only switch-checkbox">
+                  <span class="w-11 h-6 bg-slate-700 rounded-full transition-all switch-label relative after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all"></span>
+                </label>
+              </div>
+            </
