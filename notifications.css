@@ -1,0 +1,255 @@
+```css
+/* ================================================================================
+   ANIME.KEEP - NOTIFICATION CENTER & SMART RECOMMENDATIONS (MG STYLE)
+   Architect: Senior CSS Architect & UI/UX Specialist
+   Theme: Dark AMOLED Glassmorphism with Blue and Purple Accents
+================================================================================
+*/
+
+/* --- 1. DESIGN VARIABLES & ACCENT SYSTEM --- */
+:root {
+  /* Colors */
+  --bg-amoled: #020205;
+  --bg-dark-900: #06060c;
+  --bg-dark-800: #0a0a14;
+  --bg-dark-700: #121226;
+  
+  --bg-glass: rgba(10, 10, 18, 0.55);
+  --bg-glass-hover: rgba(20, 20, 35, 0.75);
+  --border-glass: rgba(255, 255, 255, 0.06);
+  --border-glass-active: rgba(59, 130, 246, 0.35);
+
+  --brand-blue: #3b82f6;
+  --brand-purple: #a855f7;
+  --brand-cyan: #06b6d4;
+  --brand-pink: #ec4899;
+  --brand-amber: #f59e0b;
+  --brand-emerald: #10b981;
+
+  /* Ambient Glow Multipliers */
+  --glow-blue: rgba(59, 130, 246, 0.25);
+  --glow-purple: rgba(168, 85, 247, 0.20);
+  --glow-pink: rgba(236, 72, 153, 0.25);
+
+  /* Elevations & Border Radii */
+  --blur-amount: 16px;
+  --radius-2xl: 24px;
+  --radius-xl: 16px;
+  --radius-lg: 12px;
+  --radius-md: 8px;
+
+  /* Premium Motion Speeds (iOS Spring Physics Inspired) */
+  --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-snappy: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* --- 2. BASE GLOBAL UTILITIES & SCROLLBAR --- */
+body {
+  background-color: var(--bg-amoled);
+  color: #f8fafc;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom AMOLED scrollbar maps */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-amoled);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-dark-700);
+  border-radius: 999px;
+  border: 1px solid var(--bg-amoled);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-blue);
+}
+
+/* --- 3. PREMIUM GLASSMORPHISM SYSTEM --- */
+.glass-panel {
+  background: var(--bg-glass);
+  backdrop-filter: blur(var(--blur-amount));
+  -webkit-backdrop-filter: blur(var(--blur-amount));
+  border: 1px solid var(--border-glass);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.7);
+}
+
+.glass-card {
+  background: rgba(15, 15, 27, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-xl);
+  transition: var(--transition-smooth);
+}
+
+/* --- 4. ANIMATIONS & ENTRANCE EFFECTS --- */
+@keyframes card-entrance {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-unread {
+  0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+  70% { box-shadow: 0 0 0 6px rgba(59, 130, 246, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+}
+
+@keyframes float-ambient {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-12px) scale(1.04); }
+}
+
+@keyframes shimmer-sweep {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Apply entrance effect to cards */
+#notifications-list article {
+  animation: card-entrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.glow-radial-blue,
+.glow-radial-purple {
+  animation: float-ambient 9s infinite ease-in-out;
+}
+
+/* --- 5. NOTIFICATION CARDS SPECIFIC STYLING --- */
+#notifications-list article.glass-panel {
+  transition: var(--transition-smooth);
+}
+
+#notifications-list article.glass-panel:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.12);
+  background-color: rgba(20, 20, 35, 0.65);
+}
+
+/* Highlighted unread border indicator states */
+#notifications-list article:not(.opacity-70) {
+  box-shadow: inset 2px 0 0 0 var(--brand-blue);
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.04) 0%, rgba(10, 10, 18, 0.55) 100%);
+}
+
+#notifications-list article:not(.opacity-70):hover {
+  box-shadow: inset 3px 0 0 0 var(--brand-blue), 0 12px 35px -10px var(--glow-blue);
+}
+
+/* Unread indicator pulse bubble */
+.bg-brand-blue.animate-pulse {
+  animation: pulse-unread 1.8s infinite ease-in-out;
+}
+
+/* --- 6. CATEGORIZED ALERTS TAB SELECTIONS --- */
+.notif-tab-btn {
+  transition: var(--transition-snappy);
+}
+
+.notif-tab-btn:active {
+  transform: scale(0.96);
+}
+
+/* --- 7. SMART RECOMMENDATION SPOTLIGHTS --- */
+#smart-recom-container .group {
+  transition: var(--transition-smooth);
+}
+
+#smart-recom-container .group:hover {
+  background-color: rgba(25, 25, 45, 0.6);
+  border-color: rgba(59, 130, 246, 0.3);
+  box-shadow: 0 10px 25px -8px var(--glow-blue);
+}
+
+#smart-recom-container .group img {
+  transition: var(--transition-smooth);
+}
+
+#smart-recom-container .group:hover img {
+  transform: scale(1.05);
+}
+
+/* --- 8. SKELETON PLACEHOLDERS --- */
+.shimmer-bg {
+  background: linear-gradient(90deg, #05050b 25%, #141427 50%, #05050b 75%);
+  background-size: 200% 100%;
+  animation: shimmer-sweep 1.5s infinite linear;
+}
+
+/* --- 9. TOAST NOTIFICATIONS & OVERLAYS --- */
+#toast-notification {
+  transition: var(--transition-smooth);
+  box-shadow: 0 16px 45px -10px rgba(0, 0, 0, 0.85);
+}
+
+/* --- 10. SYSTEM RESPONSIVE BREAKPOINTS --- */
+
+/* Mobile Native Adjustments (Default Fallback) */
+@media (max-width: 639px) {
+  .glass-panel {
+    border-radius: var(--radius-xl);
+  }
+  
+  #notifications-list article {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  #notifications-list article .absolute {
+    position: static;
+    transform: none;
+    margin-top: 12px;
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 640px) and (max-width: 1023px) {
+  #notifications-list article {
+    padding-right: 120px; /* Leave space for sliding action controls */
+  }
+}
+
+/* Desktop Premium Grid Settings */
+@media (min-width: 1024px) {
+  aside {
+    position: sticky;
+    top: 104px; /* Align precisely with sticky header offsets */
+  }
+}
+
+/* --- 11. REDUCE MOTION SETTINGS --- */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-delay: 0s !important;
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0s !important;
+    scroll-behavior: auto !important;
+  }
+  
+  #notifications-list article,
+  .glow-radial-blue,
+  .glow-radial-purple,
+  #smart-recom-container .group:hover img {
+    transform: none !important;
+    animation: none !important;
+  }
+}
+
+```
+
