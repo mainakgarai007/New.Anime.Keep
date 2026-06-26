@@ -1,4 +1,3 @@
-```javascript
 /**
  * Anime.Keep - Track • Organize • Discover • Watch • Connect
  * Production-Ready Standalone Client Application Architecture
